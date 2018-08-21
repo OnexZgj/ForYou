@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp"
+    app:contentPadding="5dp"
+    app:cardBackgroundColor ="#66fce4ec">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_iu_complete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:src="@drawable/complete" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_iu_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="@dimen/sp_16"/>
+
+
+            <TextView
+                android:id="@+id/tv_iu_des"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/sp_12"/>
+
+
+            <TextView
+                android:id="@+id/tv_iu_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="right"
+                android:text="2018-08-08"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#d4237a" />
+
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_iu_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/delete" />
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

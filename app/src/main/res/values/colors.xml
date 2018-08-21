@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f8bbd0</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorAccent">#00BCD4</color>
+
+    <color name="color_light_blue">#00DDB6</color>
+    <color name="txt_color">#48495F</color>
+    <color name="item_bg">#FFFFFF</color>
+    <color name="bg">#F0F0F0</color>
+    <color name="spinner_bg">#333244</color>
+    <color name="new_text_color">#555771</color>
+    <color name="white_text_color">#F0F0F0</color>
+    <color name="gray_color">#4b4b58</color>
+    <color name="hard_color">#48495f</color>
+    <color name="clickspan_color">#00ddb6</color>
+    <color name="dull_blue">#3B4BBF</color>
+    <color name="while_most_color">#e4e4e4</color>
+    <color name="alpha_10_black">#1A000000</color>
+    <color name="lightgray">#11000000</color>
+    <color name="green">#00ffff</color>
+    <color name="select_color_tab">#ff4081</color>
+
+    <!--正文文字颜色-->
+    <color name="colorContent">#ff333333</color>
+
+    <!--tab标签栏文字的颜色-->
+    <color name="colorTabText">#585858</color>
+
+    <!-- 背景色 -->
+    <color name="bg_gray">#f1f1f1</color>
+
+    <!-- grey -->
+    <color name="md_grey_500">#9e9e9e</color>
+
+
+    <!--选择分类按下颜色-->
+    <color name="colorChoosePress">#DDD</color>
+
+    <color name="colorTitle">#666</color>
+    <!--首页item文字颜色-->
+    <color name="colorSubtitle">#999</color>
+
+    <!--页面背景的颜色-->
+    <color name="colorPageBg">#f2f4f5</color>
+
+
+    <color name="colorWhite">#ffffffff</color>
+
+    <!--分割线-->
+    <color name="colorLine">#EBEBEB</color>
+
+
+    <color name="accuracyCircleFillColor">#AAFFFF88</color>
+    <color name="accuracyCircleStrokeColor">#AA00FF00</color>
+
+    <color name="srl_pink">#ff4081</color>
+    <color name="srl_pink2">#c51162</color>
+    <color name="srl_pink3">#f06292</color>
+    <color name="srl_pink4">#ec407a</color>
+    <color name="srl_pink5">#00e676</color>
+
+
+</resources>
