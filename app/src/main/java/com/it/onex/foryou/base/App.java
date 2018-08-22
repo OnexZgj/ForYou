@@ -4,9 +4,12 @@ import android.app.Application;
 import android.app.Service;
 import android.content.Context;
 import android.os.Vibrator;
+import android.view.Gravity;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
+import com.it.onex.foryou.R;
 import com.it.onex.foryou.di.component.ApplicationComponent;
 import com.it.onex.foryou.di.component.DaggerApplicationComponent;
 import com.it.onex.foryou.di.module.ApplicationModule;
@@ -15,6 +18,7 @@ import com.orhanobut.logger.Logger;
 
 /**
  * Created by OnexZgj on 2018/1/18.
+ * des : App
  */
 
 public class App extends Application {
@@ -31,6 +35,11 @@ public class App extends Application {
         Utils.init(this);
         intARouter();
         Logger.addLogAdapter(new AndroidLogAdapter());
+
+        //配置ToastUtils的相关的属性
+        ToastUtils.setGravity(Gravity.TOP,0, (int) (80 * Utils.getApp().getResources().getDisplayMetrics().density + 0.5));
+        ToastUtils.setBgColor(getResources().getColor(R.color.colorWhite));
+        ToastUtils.setMsgColor(getResources().getColor(R.color.colorAccent));
 
 //        FlowManager.init(this);
     }

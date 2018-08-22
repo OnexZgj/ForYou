@@ -54,8 +54,8 @@
     <string name="gank_io">干货集中营</string>
     <string name="refresh_success">刷新成功</string>
     <string name="refresh_error">刷新失败</string>
-    <string name="load_more_success">拉取数据成功</string>
-    <string name="load_more_error">拉取数据失败</string>
+    <string name="load_more_success">请求数据成功</string>
+    <string name="load_more_error">请求数据失败</string>
     <string name="title_gank">干货</string>
 
     <string name="startlocation">开始定位</string>
