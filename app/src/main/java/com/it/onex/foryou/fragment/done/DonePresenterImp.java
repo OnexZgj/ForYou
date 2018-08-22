@@ -5,6 +5,7 @@ import com.it.onex.foryou.bean.DataResponse;
 import com.it.onex.foryou.bean.TodoTaskDetail;
 import com.it.onex.foryou.bean.User;
 import com.it.onex.foryou.constant.Constant;
+import com.it.onex.foryou.constant.LoadType;
 import com.it.onex.foryou.net.ApiService;
 import com.it.onex.foryou.net.RetrofitManager;
 import com.it.onex.foryou.utils.RxSchedulers;
@@ -28,13 +29,14 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
 
     private int mType = 0;
     private int mIndexPage = 1;
+    private boolean mIsRefreshing=true;
 
     @Inject
     public DonePresenterImp() {
     }
 
     @Override
-    public void getNotodoList(int type) {
+    public void getTodoList(int type) {
         this.mType = type;
 
         mView.showLoading();
@@ -58,7 +60,10 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
                 .subscribe(new Consumer<Map<String, Object>>() {
                     @Override
                     public void accept(Map<String, Object> data) throws Exception {
-                        mView.showDoneTask((TodoTaskDetail) data.get(Constant.UNDONE_DATA));
+
+                        int loadType = mIsRefreshing? LoadType.TYPE_REFRESH_SUCCESS:LoadType.TYPE_LOAD_MORE_SUCCESS;
+
+                        mView.showDoneTask((TodoTaskDetail) data.get(Constant.UNDONE_DATA),loadType);
                         mView.hideLoading();
 
                     }
@@ -74,7 +79,8 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
     @Override
     public void refresh() {
         mIndexPage=1;
-        getNotodoList(mType);
+        mIsRefreshing=true;
+        getTodoList(mType);
     }
 
     @Override
@@ -116,4 +122,13 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
                     }
                 });
     }
+
+    @Override
+    public void loadMore() {
+        mIndexPage++;
+        mIsRefreshing=false;
+        getTodoList(mType);
+    }
+
+
 }

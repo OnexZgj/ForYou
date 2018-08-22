@@ -118,12 +118,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 switchFragment(0);
                 break;
             case R.id.navigation_knowledgesystem:
-                mToolbar.setTitle(R.string.knowledgesystem);
+                mToolbar.setTitle(R.string.no_complete);
                 mToolbar.setVisibility(View.VISIBLE);
                 switchFragment(1);
                 break;
         }
-
         return true;
     }
 

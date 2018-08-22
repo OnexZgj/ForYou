@@ -63,5 +63,6 @@
     <string name="title">请输入标题:</string>
     <string name="content">请输入待办内容:</string>
     <string name="save">保存</string>
+    <string name="no_complete">完成待办</string>
 
 </resources>

@@ -22,7 +22,7 @@ import butterknife.OnClick;
  * des:待办Fragment
  */
 
-public class DoneFragment extends BaseFragment<DonePresenterImp> implements DoneContract.View, BaseQuickAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class DoneFragment extends BaseFragment<DonePresenterImp> implements DoneContract.View, BaseQuickAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemChildClickListener {
 
     private static final int REQUEST_BACK = 1000;
     private static int mType = 0;
@@ -35,7 +35,7 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     DoneAdapter mDoneAdapter;
 
     public static DoneFragment getInstance(int type) {
-        mType=type;
+        mType = type;
         return new DoneFragment();
     }
 
@@ -50,7 +50,6 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     }
 
 
-
     @Override
     protected void initView(View view) {
         rvFuList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -58,10 +57,13 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
         /**设置事件监听*/
         mDoneAdapter.setOnItemClickListener(this);
+
+        mDoneAdapter.setOnItemChildClickListener(this);
+
         srlFuRefresh.setOnRefreshListener(this);
 
         /**请求数据*/
-        mPresenter.getNotodoList(0);
+        mPresenter.getTodoList(0);
     }
 
 
@@ -78,7 +80,7 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
         mPresenter.refresh();
     }
 
-    
+
     @Override
     public void showLoading() {
         srlFuRefresh.setRefreshing(true);
@@ -96,22 +98,9 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
 
     @Override
-    public void showDoneTask(final TodoTaskDetail data) {
-        mDoneAdapter.setNewData(data.getDatas());
+    public void showDoneTask(final TodoTaskDetail data, int loadType) {
 
-        mDoneAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
-                    case R.id.iv_id_no_complete:
-                        mPresenter.updataStatus(data.getDatas().get(position).getId());
-                        break;
-                    case R.id.iv_id_delete:
-                        mPresenter.deleteTodo(data.getDatas().get(position).getId());
-                        break;
-                }
-            }
-        });
+        setLoadDataResult(mDoneAdapter, srlFuRefresh, data.getDatas(), loadType);
 
     }
 
@@ -130,15 +119,25 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
     @OnClick(R.id.fab_fu_add_task)
     public void onViewClicked() {
-        startActivityForResult(new Intent(getActivity(),AddTaskActivity.class),REQUEST_BACK);
+        startActivityForResult(new Intent(getActivity(), AddTaskActivity.class), REQUEST_BACK);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode==REQUEST_BACK){
+        if (requestCode == REQUEST_BACK) {
             onRefresh();
         }
+    }
 
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        switch (view.getId()) {
+            case R.id.iv_id_no_complete:
+                mPresenter.updataStatus(mDoneAdapter.getItem(position).getId());
+                break;
+            case R.id.iv_id_delete:
+                mPresenter.deleteTodo(mDoneAdapter.getItem(position).getId());
+                break;
+        }
     }
 }

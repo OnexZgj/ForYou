@@ -10,7 +10,7 @@ import com.it.onex.foryou.bean.TodoTaskDetail;
 
 public class DoneContract {
     interface View extends BaseContract.BaseView{
-        void showDoneTask(TodoTaskDetail data);
+        void showDoneTask(TodoTaskDetail data,int loadType);
 
 
         /**
@@ -34,7 +34,7 @@ public class DoneContract {
          * 获取待办任务的数据
          * @param type 0,1,2,3
          */
-        void getNotodoList(int type);
+        void getTodoList(int type);
 
         /**
          * 刷新方法
@@ -53,6 +53,11 @@ public class DoneContract {
          * @param id
          */
         void updataStatus(int id);
+
+        /**
+         * 加载更多的方法
+         */
+        void loadMore();
 
     }
 
