@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,17 +23,25 @@
         </android.support.design.widget.AppBarLayout>
 
 
+        <include layout="@layout/item_type_head"/>
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:gravity="center"
+            android:background="@drawable/et_line_bg"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/tiet_adt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/title" />
+                android:hint="@string/title"
+                android:padding="@dimen/dp_5"
+                android:gravity="center_vertical"
+                android:textColorHint="#19443D"
+                android:background="@null"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -42,13 +51,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/et_line_bg"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/tiet_adt_Content"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:hint="@string/content" />
+                android:padding="@dimen/dp_5"
+                android:hint="@string/content"
+                android:background="@null"
+                android:gravity="top|left"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -56,20 +69,28 @@
         <TextView
             android:id="@+id/tv_adt_date"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_5"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/et_line_bg"
+            android:textColor="#19443D"
+            android:padding="@dimen/dp_5"
+            android:gravity="center_vertical"
             android:text="" />
 
 
         <Button
             android:id="@+id/btn_adt_save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_5"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@mipmap/circle_bg"
+            android:textColor="#19443D"
+            android:textSize="@dimen/sp_16"
             android:text="@string/save" />
 
     </LinearLayout>

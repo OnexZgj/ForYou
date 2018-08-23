@@ -146,7 +146,6 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
             case LoadType.TYPE_LOAD_MORE_SUCCESS:
                 if (list != null) baseQuickAdapter.addData(list);
                 ToastUtils.showShort(R.string.load_more_success);
-
                 break;
             case LoadType.TYPE_LOAD_MORE_ERROR:
                 baseQuickAdapter.loadMoreFail();

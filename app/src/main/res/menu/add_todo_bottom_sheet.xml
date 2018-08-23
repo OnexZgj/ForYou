@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_add_default"
+        android:icon="@drawable/ic_vector_item_all"
+        android:title="默认"/>
+    <item
+        android:id="@+id/item_add_work"
+        android:icon="@drawable/ic_vector_item_app"
+        android:title="工作"/>
+    <item
+        android:id="@+id/item_add_life"
+        android:icon="@drawable/ic_vector_title_android"
+        android:title="生活"/>
+
+    <item
+        android:id="@+id/item_add_study"
+        android:icon="@drawable/ic_vector_item_tuozhan"
+        android:title="学习"/>
+</menu>

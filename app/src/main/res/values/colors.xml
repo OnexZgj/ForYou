@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#f8bbd0</color>
     <color name="colorPrimaryDark">#0288D1</color>
-    <color name="colorAccent">#00BCD4</color>
+    <!--<color name="colorAccent">#00BCD4</color>-->
+    <color name="colorAccent">#19443D</color>
 
     <color name="color_light_blue">#00DDB6</color>
     <color name="txt_color">#48495F</color>
@@ -53,12 +54,17 @@
 
     <color name="accuracyCircleFillColor">#AAFFFF88</color>
     <color name="accuracyCircleStrokeColor">#AA00FF00</color>
+    <color name="alpha_pink">#66fce4ec</color>
 
     <color name="srl_pink">#ff4081</color>
     <color name="srl_pink2">#c51162</color>
     <color name="srl_pink3">#f06292</color>
     <color name="srl_pink4">#ec407a</color>
     <color name="srl_pink5">#00e676</color>
+
+
+
+    <color name="text_color">#19443D</color>
 
 
 </resources>
