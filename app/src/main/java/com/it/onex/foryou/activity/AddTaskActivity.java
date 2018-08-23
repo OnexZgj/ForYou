@@ -41,7 +41,6 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     @BindView(R.id.tv_type_name)
     TextView tvTypeName;
 
-
     int mYear = 2018;
     int mMonth = 8;
     int mDay = 18;
@@ -67,8 +66,6 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
         mYear=Integer.parseInt(format.split("-")[0]);
         mMonth=Integer.parseInt(format.split("-")[1]);
         mDay=Integer.parseInt(format.split("-")[2]);
-
-
         tvAdtDate.setText(mYear + "-" + mMonth + "-" + mDay);
     }
 
@@ -77,7 +74,6 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_adt_date:
-
                 new DatePickerDialog(AddTaskActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -86,7 +82,6 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
 
                     }
                 }, mYear, mMonth, mDay).show();
-
                 break;
             case R.id.btn_adt_save:
                 showLoading();
@@ -133,11 +128,7 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
                                 tvTypeName.setText("学习");
                                 break;
                         }
-
                     }
                 }).show();
     }
-
-
-
 }
