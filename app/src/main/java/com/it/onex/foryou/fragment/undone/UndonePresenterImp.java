@@ -43,8 +43,8 @@ public class UndonePresenterImp extends BasePresenter<UndoneContract.View> imple
         mView.showLoading();
 
         ApiService apiService = RetrofitManager.create(ApiService.class);
-//        Observable<DataResponse<User>> observableLogin = apiService.login("cyqwan", "521521521");
-        Observable<DataResponse<User>> observableLogin = apiService.login("OnexZgj", "13102119zgj");
+        Observable<DataResponse<User>> observableLogin = apiService.login("cyqwan", "521521521");
+//        Observable<DataResponse<User>> observableLogin = apiService.login("OnexZgj", "13102119zgj");
         Observable<DataResponse<TodoTaskDetail>> observableUndoneTaskData = apiService.getNotodoList(type,mIndexPage);
 
 

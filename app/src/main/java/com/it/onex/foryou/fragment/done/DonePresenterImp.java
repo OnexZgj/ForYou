@@ -42,7 +42,8 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
         mView.showLoading();
 
         ApiService apiService = RetrofitManager.create(ApiService.class);
-        Observable<DataResponse<User>> observableLogin = apiService.login("OnexZgj", "13102119zgj");
+//        Observable<DataResponse<User>> observableLogin = apiService.login("OnexZgj", "13102119zgj");
+        Observable<DataResponse<User>> observableLogin = apiService.login("cyqwan", "521521521");
         Observable<DataResponse<TodoTaskDetail>> observableUndoneTaskData = apiService.getTodoList(type, mIndexPage);
 
         Observable.zip(observableLogin, observableUndoneTaskData, new BiFunction<DataResponse<User>, DataResponse<TodoTaskDetail>, Map<String, Object>>() {
