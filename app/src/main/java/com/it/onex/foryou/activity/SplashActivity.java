@@ -10,12 +10,19 @@ import android.view.WindowManager;
 import com.it.onex.foryou.MainActivity;
 import com.it.onex.foryou.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import yanzhikai.textpath.SyncTextPathView;
+
 /**
  * Created by Linsa on 2018/9/3:11:00.
  * des:
  */
 
 public class SplashActivity extends AppCompatActivity {
+
+    @BindView(R.id.atpv_as)
+    SyncTextPathView atpvAs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +47,9 @@ public class SplashActivity extends AppCompatActivity {
 //        }
 
         setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
+
+        atpvAs.startAnimation(0,1);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -47,8 +57,9 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
             }
-        }, 2000);
+        }, 3000);
 
 
     }
+
 }

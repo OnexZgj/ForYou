@@ -65,6 +65,7 @@
 
 
     <color name="text_color">#19443D</color>
+    <color name="white">#ffffff</color>
 
 
 </resources>
