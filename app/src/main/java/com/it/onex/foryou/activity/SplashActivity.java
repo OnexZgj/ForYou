@@ -13,6 +13,7 @@ import com.it.onex.foryou.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yanzhikai.textpath.SyncTextPathView;
+import yanzhikai.textpath.painter.FireworksPainter;
 
 /**
  * Created by Linsa on 2018/9/3:11:00.
@@ -49,7 +50,21 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 
+        atpvAs.setPathPainter(new FireworksPainter());
+
         atpvAs.startAnimation(0,1);
+
+//        atpvAs.setTextPainter(new SyncTextPathView.SyncTextPainter() {
+//            @Override
+//            public void onStartAnimation() {
+//
+//            }
+//
+//            @Override
+//            public void onDrawPaintPath(float x, float y, Path paintPath) {
+//
+//            }
+//        });
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -57,7 +72,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
             }
-        }, 3000);
+        }, 5000);
 
 
     }
