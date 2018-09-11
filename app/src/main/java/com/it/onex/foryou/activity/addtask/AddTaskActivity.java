@@ -1,4 +1,4 @@
-package com.it.onex.foryou.activity;
+package com.it.onex.foryou.activity.addtask;
 
 import android.app.DatePickerDialog;
 import android.view.View;

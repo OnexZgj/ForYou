@@ -59,4 +59,6 @@ public class Constant {
     public static final String ARTICLE_KEY = "article";
     public static final String UNDONE_DATA = "undone_data";
 
+    public static final String IS_FIRST_LOGIN = "is_first_login";
+    public static final String LOGIN_WARN = "请先登录";
 }

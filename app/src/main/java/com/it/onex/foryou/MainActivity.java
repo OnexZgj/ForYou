@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.it.onex.foryou.base.BaseActivity;
 import com.it.onex.foryou.base.BaseFragment;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+@Route(path="/activity/MainActivity")
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.navigation)

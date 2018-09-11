@@ -174,21 +174,21 @@ public interface ApiService {
     @POST("/user/login")
     @FormUrlEncoded
     Observable<DataResponse<User>> login(@Field("username") String username, @Field("password") String password);
-//
-//
-//    /**
-//     * 注册用户的方法
-//     * http://www.wanandroid.com/user/register
-//     *
-//     * @param username   用户名
-//     * @param password   密码
-//     * @param repassword 确认密码
-//     * @return
-//     */
-//    @POST("/user/register")
-//    Observable<DataResponse> register(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
-//
-//
+
+
+    /**
+     * 注册用户的方法
+     * http://www.wanandroid.com/user/register
+     *
+     * @param username   用户名
+     * @param password   密码
+     * @param repassword 确认密码
+     * @return
+     */
+    @POST("/user/register")
+    @FormUrlEncoded
+    Observable<DataResponse> register(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
+
 //    /**
 //     * 体系结构
 //     * http://www.wanandroid.com/tree/json

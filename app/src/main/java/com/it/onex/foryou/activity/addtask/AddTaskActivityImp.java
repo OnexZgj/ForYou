@@ -1,8 +1,9 @@
-package com.it.onex.foryou.activity;
+package com.it.onex.foryou.activity.addtask;
 
 import com.it.onex.foryou.base.BasePresenter;
 import com.it.onex.foryou.bean.AddToDoDetail;
 import com.it.onex.foryou.bean.DataResponse;
+import com.it.onex.foryou.constant.Constant;
 import com.it.onex.foryou.net.ApiService;
 import com.it.onex.foryou.net.RetrofitManager;
 import com.it.onex.foryou.utils.RxSchedulers;
@@ -33,21 +34,23 @@ public class AddTaskActivityImp extends BasePresenter<AddTaskActivityContract.Vi
                 .subscribe(new Consumer<DataResponse<AddToDoDetail>>() {
                     @Override
                     public void accept(DataResponse<AddToDoDetail> dataResponse) throws Exception {
-                        Logger.json(dataResponse.getData().toString());
 
-                        Logger.d(dataResponse.getErrorMsg() + "  ----------   " + dataResponse.getData());
-                        mView.showAddTaskSuccess();
+
+                        if (dataResponse.getErrorCode() != 0) {
+                            mView.showAddTaskSuccess();
+                        } else {
+                            mView.showFaild(dataResponse.getErrorMsg());
+                            if (dataResponse.getErrorMsg().equals(Constant.LOGIN_WARN)) {
+                                mView.jumpToLogin();
+                            }
+                        }
                         mView.hideLoading();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
-                        Logger.e(throwable.getMessage().toString());
-
                         mView.showFaild("添加待办失败,请重试...");
                         mView.hideLoading();
-
                     }
                 });
     }

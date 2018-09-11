@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.it.onex.foryou.R;
-import com.it.onex.foryou.activity.AddTaskActivity;
+import com.it.onex.foryou.activity.addtask.AddTaskActivity;
 import com.it.onex.foryou.base.BaseFragment;
 import com.it.onex.foryou.bean.TodoTaskDetail;
 

@@ -200,4 +200,12 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         }
     }
 
+
+
+    @Override
+    public void jumpToLogin() {
+        ARouter.getInstance().build("/activity/LoginActivity")
+                .navigation();
+    }
+
 }

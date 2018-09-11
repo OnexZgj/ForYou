@@ -97,6 +97,13 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
 
     }
 
+
+    @Override
+    public void jumpToLogin() {
+        ARouter.getInstance().build("/activity/LoginActivity")
+                .navigation();
+    }
+
     @Override
     public void showSuccess(String successMsg) {
         ToastUtils.showShort(successMsg);
@@ -181,6 +188,9 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
                 .activityModule(new ActivityModule(this))
                 .build();
     }
+
+
+
 
     /**
      * 初始化toolbar

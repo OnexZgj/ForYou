@@ -3,20 +3,14 @@ package com.it.onex.foryou.fragment.done;
 import com.it.onex.foryou.base.BasePresenter;
 import com.it.onex.foryou.bean.DataResponse;
 import com.it.onex.foryou.bean.TodoTaskDetail;
-import com.it.onex.foryou.bean.User;
 import com.it.onex.foryou.constant.Constant;
 import com.it.onex.foryou.constant.LoadType;
 import com.it.onex.foryou.net.ApiService;
 import com.it.onex.foryou.net.RetrofitManager;
 import com.it.onex.foryou.utils.RxSchedulers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -29,7 +23,7 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
 
     private int mType = 0;
     private int mIndexPage = 1;
-    private boolean mIsRefreshing=true;
+    private boolean mIsRefreshing = true;
 
     @Inject
     public DonePresenterImp() {
@@ -43,30 +37,25 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
 
         ApiService apiService = RetrofitManager.create(ApiService.class);
 //        Observable<DataResponse<User>> observableLogin = apiService.login("OnexZgj", "13102119zgj");
-        Observable<DataResponse<User>> observableLogin = apiService.login("cyqwan", "521521521");
-        Observable<DataResponse<TodoTaskDetail>> observableUndoneTaskData = apiService.getTodoList(type, mIndexPage);
-
-        Observable.zip(observableLogin, observableUndoneTaskData, new BiFunction<DataResponse<User>, DataResponse<TodoTaskDetail>, Map<String, Object>>() {
-            @Override
-            public Map<String, Object> apply(DataResponse<User> userDataResponse, DataResponse<TodoTaskDetail> dataResponse) throws Exception {
-                Map<String, Object> objMap = new HashMap<>();
-                objMap.put(Constant.UNDONE_DATA, dataResponse.getData());
-                objMap.put(Constant.ARTICLE_KEY, userDataResponse.getData());
-
-
-                return objMap;
-            }
-        }).compose(RxSchedulers.<Map<String, Object>>applySchedulers())
-                .compose(mView.<Map<String, Object>>bindToLife())
-                .subscribe(new Consumer<Map<String, Object>>() {
+//        Observable<DataResponse<User>> observableLogin = apiService.login("cyqwan", "521521521");
+        apiService.getTodoList(type, mIndexPage).compose(mView.<DataResponse<TodoTaskDetail>>bindToLife())
+                .compose(RxSchedulers.<DataResponse<TodoTaskDetail>>applySchedulers())
+                .subscribe(new Consumer<DataResponse<TodoTaskDetail>>() {
                     @Override
-                    public void accept(Map<String, Object> data) throws Exception {
+                    public void accept(DataResponse<TodoTaskDetail> data) throws Exception {
 
-                        int loadType = mIsRefreshing? LoadType.TYPE_REFRESH_SUCCESS:LoadType.TYPE_LOAD_MORE_SUCCESS;
+                        if (data.getErrorCode() == 0) {
 
-                        mView.showDoneTask((TodoTaskDetail) data.get(Constant.UNDONE_DATA),loadType);
+                            int loadType = mIsRefreshing ? LoadType.TYPE_REFRESH_SUCCESS : LoadType.TYPE_LOAD_MORE_SUCCESS;
+
+                            mView.showDoneTask(data.getData(), loadType);
+                        } else {
+                            mView.showFaild(data.getErrorMsg());
+                            if (data.getErrorMsg().equals(Constant.LOGIN_WARN)){
+                                mView.jumpToLogin();
+                            }
+                        }
                         mView.hideLoading();
-
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -75,12 +64,42 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
                         mView.hideLoading();
                     }
                 });
+
+//        Observable.zip(observableLogin, observableUndoneTaskData, new BiFunction<DataResponse<User>, DataResponse<TodoTaskDetail>, Map<String, Object>>() {
+//            @Override
+//            public Map<String, Object> apply(DataResponse<User> userDataResponse, DataResponse<TodoTaskDetail> dataResponse) throws Exception {
+//                Map<String, Object> objMap = new HashMap<>();
+//                objMap.put(Constant.UNDONE_DATA, dataResponse.getData());
+//                objMap.put(Constant.ARTICLE_KEY, userDataResponse.getData());
+//
+//
+//                return objMap;
+//            }
+//        }).compose(RxSchedulers.<Map<String, Object>>applySchedulers())
+//                .compose(mView.<Map<String, Object>>bindToLife())
+//                .subscribe(new Consumer<Map<String, Object>>() {
+//                    @Override
+//                    public void accept(Map<String, Object> data) throws Exception {
+//
+//                        int loadType = mIsRefreshing? LoadType.TYPE_REFRESH_SUCCESS:LoadType.TYPE_LOAD_MORE_SUCCESS;
+//
+//                        mView.showDoneTask((TodoTaskDetail) data.get(Constant.UNDONE_DATA),loadType);
+//                        mView.hideLoading();
+//
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Exception {
+//                        mView.showFaild("请求网络错误!");
+//                        mView.hideLoading();
+//                    }
+//                });
     }
 
     @Override
     public void refresh() {
-        mIndexPage=1;
-        mIsRefreshing=true;
+        mIndexPage = 1;
+        mIsRefreshing = true;
         getTodoList(mType);
     }
 
@@ -106,7 +125,7 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
     @Override
     public void updataStatus(int id) {
         mView.showLoading();
-        RetrofitManager.create(ApiService.class).updateStateTodo(id,0)
+        RetrofitManager.create(ApiService.class).updateStateTodo(id, 0)
                 .compose(RxSchedulers.<DataResponse>applySchedulers())
                 .compose(mView.<DataResponse>bindToLife())
                 .subscribe(new Consumer<DataResponse>() {
@@ -127,7 +146,7 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
     @Override
     public void loadMore() {
         mIndexPage++;
-        mIsRefreshing=false;
+        mIsRefreshing = false;
         getTodoList(mType);
     }
 

@@ -3,7 +3,9 @@ package com.it.onex.foryou.di.component;
 import android.app.Activity;
 import android.content.Context;
 
-import com.it.onex.foryou.activity.AddTaskActivity;
+import com.it.onex.foryou.activity.addtask.AddTaskActivity;
+import com.it.onex.foryou.activity.login.LoginActivity;
+import com.it.onex.foryou.activity.register.RegisterActivity;
 import com.it.onex.foryou.di.module.ActivityModule;
 import com.it.onex.foryou.di.scope.ContextLife;
 import com.it.onex.foryou.di.scope.PerActivity;
@@ -26,5 +28,9 @@ public interface ActivityComponent {
     Activity getActivity();
 
     void inject(AddTaskActivity activity);
+
+    void inject(LoginActivity activity);
+
+    void inject(RegisterActivity activity);
 
 }

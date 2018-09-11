@@ -53,7 +53,6 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     compile 'com.android.support:preference-v14:26.1.0'
 
-
     //recycleView
     implementation 'com.android.support:recyclerview-v7:26.1.0'
 
@@ -98,7 +97,6 @@ dependencies {
 
     //路径绘制
     compile 'com.yanzhikai:TextPathView:0.1.3'
-
 
 
 }

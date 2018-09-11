@@ -1,4 +1,4 @@
-package com.it.onex.foryou.activity;
+package com.it.onex.foryou.activity.addtask;
 
 import com.it.onex.foryou.base.BaseContract;
 

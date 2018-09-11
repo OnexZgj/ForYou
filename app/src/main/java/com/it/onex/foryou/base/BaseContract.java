@@ -45,5 +45,9 @@ public interface BaseContract {
          */
         <T> LifecycleTransformer<T> bindToLife();
 
+        /**
+         * 跳转到登录页面
+         */
+        void jumpToLogin();
     }
 }
