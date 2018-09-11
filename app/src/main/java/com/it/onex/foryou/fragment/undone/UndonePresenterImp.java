@@ -47,15 +47,17 @@ public class UndonePresenterImp extends BasePresenter<UndoneContract.View> imple
                 .subscribe(new Consumer<DataResponse<TodoTaskDetail>>() {
                     @Override
                     public void accept(DataResponse<TodoTaskDetail> data) throws Exception {
-                        int loadType = LoadType.TYPE_REFRESH_SUCCESS;
+
                         if (data.getErrorCode() != 0) {
-                            loadType = mIsRefresh ? LoadType.TYPE_REFRESH_SUCCESS : LoadType.TYPE_LOAD_MORE_SUCCESS;
-                            mView.showUndoneTask(data.getData(), loadType);
-                        } else {
+
+
                             mView.showFaild(data.getErrorMsg());
                             if (data.getErrorMsg().equals(Constant.LOGIN_WARN)) {
                                 mView.jumpToLogin();
                             }
+                        } else {
+                            int loadType = mIsRefresh ? LoadType.TYPE_REFRESH_SUCCESS : LoadType.TYPE_LOAD_MORE_SUCCESS;
+                            mView.showUndoneTask(data.getData(), loadType);
                         }
                         mView.hideLoading();
                     }
