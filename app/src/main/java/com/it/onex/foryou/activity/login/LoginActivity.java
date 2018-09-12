@@ -48,8 +48,12 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements Log
     @Override
     protected void initView() {
         String account = SPUtils.getInstance().getString("account");
-        if (TextUtils.isEmpty(account)){
+        String password = SPUtils.getInstance().getString("password");
+        if (!TextUtils.isEmpty(account)){
             tvAlAccount.setText(account);
+        }
+        if (!TextUtils.isEmpty(password)){
+            tvAlPassword.setText(password);
         }
     }
 
@@ -74,6 +78,7 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements Log
     public void showLoginSuccess() {
         showSuccess("登录成功!");
         SPUtils.getInstance().put("account",tvAlAccount.getText().toString().trim());
+        SPUtils.getInstance().put("password",tvAlPassword.getText().toString().trim());
         ARouter.getInstance().build("/activity/MainActivity")
                 .navigation();
         finish();

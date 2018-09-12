@@ -7,11 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
-import com.blankj.utilcode.util.SPUtils;
-import com.it.onex.foryou.MainActivity;
 import com.it.onex.foryou.R;
 import com.it.onex.foryou.activity.login.LoginActivity;
-import com.it.onex.foryou.constant.Constant;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,10 +67,8 @@ public class SplashActivity extends AppCompatActivity {
 //        });
 
 
-        boolean isFirst = SPUtils.getInstance().getBoolean(Constant.IS_FIRST_LOGIN, true);
 
 
-        if (isFirst){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -81,17 +76,9 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
             }, 5000);
-        }else{
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                    finish();
-                }
-            }, 5000);
-        }
 
-        SPUtils.getInstance().put(Constant.IS_FIRST_LOGIN,false);
+
+
     }
 
 }
