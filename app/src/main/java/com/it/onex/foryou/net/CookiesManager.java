@@ -1,5 +1,7 @@
 package com.it.onex.foryou.net;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
 import okhttp3.Cookie;
@@ -16,6 +18,13 @@ public class CookiesManager implements CookieJar {
 
     @Override
     public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+
+        Logger.d(url);
+
+        for (Cookie item:cookies){
+            Logger.d(item.name()+"==="+item.value());
+        }
+
         if (cookies != null && cookies.size() > 0) {
             for (Cookie item : cookies) {
                 cookieStore.add(url, item);

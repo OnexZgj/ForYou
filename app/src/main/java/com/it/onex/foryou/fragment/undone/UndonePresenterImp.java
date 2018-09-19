@@ -3,7 +3,6 @@ package com.it.onex.foryou.fragment.undone;
 import com.it.onex.foryou.base.BasePresenter;
 import com.it.onex.foryou.bean.DataResponse;
 import com.it.onex.foryou.bean.TodoTaskDetail;
-import com.it.onex.foryou.constant.Constant;
 import com.it.onex.foryou.constant.LoadType;
 import com.it.onex.foryou.net.ApiService;
 import com.it.onex.foryou.net.RetrofitManager;
@@ -25,7 +24,7 @@ public class UndonePresenterImp extends BasePresenter<UndoneContract.View> imple
 
     private int mType = 0;
     private int mIndexPage = 1;
-    private boolean mIsRefresh = false;
+    private boolean mIsRefresh = true;
 
     @Inject
     public UndonePresenterImp() {
@@ -46,14 +45,14 @@ public class UndonePresenterImp extends BasePresenter<UndoneContract.View> imple
                     @Override
                     public void accept(DataResponse<TodoTaskDetail> data) throws Exception {
 
-                        if (data.getErrorCode() != 0) {
-                            mView.showFaild(data.getErrorMsg());
-                            if (data.getErrorMsg().equals(Constant.LOGIN_WARN)) {
-                                mView.jumpToLogin();
-                            }
-                        } else {
+                        if (data.getErrorCode() == 0) {
+
                             int loadType = mIsRefresh ? LoadType.TYPE_REFRESH_SUCCESS : LoadType.TYPE_LOAD_MORE_SUCCESS;
                             mView.showUndoneTask(data.getData(), loadType);
+                        } else {
+
+                            mView.showFaild(data.getErrorMsg());
+
                         }
                         mView.hideLoading();
                     }

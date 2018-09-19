@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.it.onex.foryou.MainActivity;
 import com.it.onex.foryou.R;
 import com.it.onex.foryou.activity.login.LoginActivity;
 
@@ -24,6 +26,8 @@ public class SplashActivity extends AppCompatActivity {
 
     @BindView(R.id.atpv_as)
     SyncTextPathView atpvAs;
+    private boolean study=true;
+    private SPUtils spUtils;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,13 +71,24 @@ public class SplashActivity extends AppCompatActivity {
 //        });
 
 
+        spUtils = SPUtils.getInstance();
+        study = spUtils.getBoolean("study");
+
 
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                    finish();
+
+                    if (study) {
+
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        finish();
+                    }else{
+                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                        spUtils.put("study", true);
+                        finish();
+                    }
                 }
             }, 5000);
 

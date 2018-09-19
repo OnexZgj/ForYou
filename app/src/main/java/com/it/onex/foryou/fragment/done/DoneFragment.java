@@ -4,13 +4,19 @@ import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.it.onex.foryou.R;
 import com.it.onex.foryou.activity.addtask.AddTaskActivity;
 import com.it.onex.foryou.base.BaseFragment;
+import com.it.onex.foryou.bean.TodoSection;
 import com.it.onex.foryou.bean.TodoTaskDetail;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -55,6 +61,8 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
         rvFuList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvFuList.setAdapter(mDoneAdapter);
 
+        mDoneAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+
         /**设置事件监听*/
         mDoneAdapter.setOnItemClickListener(this);
 
@@ -98,9 +106,25 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
 
     @Override
-    public void showDoneTask(final TodoTaskDetail data, int loadType) {
+    public void showDoneTask(final TodoTaskDetail datas, int loadType) {
 
-        setLoadDataResult(mDoneAdapter, srlFuRefresh, data.getDatas(), loadType);
+            List<TodoSection> todoSections = new ArrayList<>();
+            LinkedHashSet<String> dates = new LinkedHashSet<>();
+            for (TodoTaskDetail.DatasBean todoDesBean : datas.getDatas()) {
+                dates.add(todoDesBean.getDateStr());
+            }
+            for (String date : dates) {
+                TodoSection todoSectionHead = new TodoSection(true, date);
+                todoSections.add(todoSectionHead);
+                for (TodoTaskDetail.DatasBean todoDesBean : datas.getDatas()) {
+                    if (TextUtils.equals(date, todoDesBean.getDateStr())) {
+                        TodoSection todoSectionContent = new TodoSection(todoDesBean);
+                        todoSections.add(todoSectionContent);
+                    }
+                }
+            }
+
+        setLoadDataResult(mDoneAdapter, srlFuRefresh,todoSections , loadType);
 
     }
 
@@ -133,10 +157,10 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()) {
             case R.id.iv_id_no_complete:
-                mPresenter.updataStatus(mDoneAdapter.getItem(position).getId());
+                mPresenter.updataStatus(mDoneAdapter.getItem(position).t.getId());
                 break;
             case R.id.iv_id_delete:
-                mPresenter.deleteTodo(mDoneAdapter.getItem(position).getId());
+                mPresenter.deleteTodo(mDoneAdapter.getItem(position).t.getId());
                 break;
         }
     }

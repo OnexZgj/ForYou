@@ -36,8 +36,6 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
         mView.showLoading();
 
         ApiService apiService = RetrofitManager.create(ApiService.class);
-//        Observable<DataResponse<User>> observableLogin = apiService.login("OnexZgj", "13102119zgj");
-//        Observable<DataResponse<User>> observableLogin = apiService.login("cyqwan", "521521521");
         apiService.getTodoList(type, mIndexPage).compose(mView.<DataResponse<TodoTaskDetail>>bindToLife())
                 .compose(RxSchedulers.<DataResponse<TodoTaskDetail>>applySchedulers())
                 .subscribe(new Consumer<DataResponse<TodoTaskDetail>>() {
@@ -65,35 +63,6 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
                     }
                 });
 
-//        Observable.zip(observableLogin, observableUndoneTaskData, new BiFunction<DataResponse<User>, DataResponse<TodoTaskDetail>, Map<String, Object>>() {
-//            @Override
-//            public Map<String, Object> apply(DataResponse<User> userDataResponse, DataResponse<TodoTaskDetail> dataResponse) throws Exception {
-//                Map<String, Object> objMap = new HashMap<>();
-//                objMap.put(Constant.UNDONE_DATA, dataResponse.getData());
-//                objMap.put(Constant.ARTICLE_KEY, userDataResponse.getData());
-//
-//
-//                return objMap;
-//            }
-//        }).compose(RxSchedulers.<Map<String, Object>>applySchedulers())
-//                .compose(mView.<Map<String, Object>>bindToLife())
-//                .subscribe(new Consumer<Map<String, Object>>() {
-//                    @Override
-//                    public void accept(Map<String, Object> data) throws Exception {
-//
-//                        int loadType = mIsRefreshing? LoadType.TYPE_REFRESH_SUCCESS:LoadType.TYPE_LOAD_MORE_SUCCESS;
-//
-//                        mView.showDoneTask((TodoTaskDetail) data.get(Constant.UNDONE_DATA),loadType);
-//                        mView.hideLoading();
-//
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        mView.showFaild("请求网络错误!");
-//                        mView.hideLoading();
-//                    }
-//                });
     }
 
     @Override

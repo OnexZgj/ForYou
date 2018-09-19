@@ -1,6 +1,10 @@
 package com.it.onex.foryou.net;
 
 import com.blankj.utilcode.util.NetworkUtils;
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.it.onex.foryou.base.App;
 import com.it.onex.foryou.constant.Constant;
 import com.orhanobut.logger.Logger;
@@ -117,16 +121,20 @@ public class RetrofitManager {
     private static OkHttpClient getOkHttpClient() {
         if (mOkHttpClient == null) {
             synchronized (RetrofitManager.class) {
+                ClearableCookieJar cookieJar =
+                        new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(App.getAppContext()));
+
                 Cache cache = new Cache(new File(App.getAppContext().getCacheDir(), "HttpCache"), 1024 * 1024 * 100);
                 if (mOkHttpClient == null) {
                     mOkHttpClient = new OkHttpClient.Builder().cache(cache)
                             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                             .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
-                            .addInterceptor(mRewriteCacheControlInterceptor)
+//                            .addInterceptor(mRewriteCacheControlInterceptor)
                             .addInterceptor(mLoggingInterceptor)
 //                            .addInterceptor(interceptor)
-                            .cookieJar(new CookiesManager())
+//                            .cookieJar(new CookiesManager())
+                            .cookieJar(cookieJar)
                             .build();
                 }
             }

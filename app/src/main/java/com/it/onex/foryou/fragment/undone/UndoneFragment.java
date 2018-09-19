@@ -5,13 +5,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.it.onex.foryou.R;
 import com.it.onex.foryou.activity.addtask.AddTaskActivity;
 import com.it.onex.foryou.base.BaseFragment;
+import com.it.onex.foryou.bean.TodoSection;
 import com.it.onex.foryou.bean.TodoTaskDetail;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -71,10 +77,19 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
         srlFuRefresh.setOnRefreshListener(this);
 
 
+        //为了防止第一次应用进行的时候，mPresent还没有进行初始化导致的数据一直在加载
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
+                mPresenter.getUndoneTask(0);
+            }
+        },20);
 
         /**请求数据*/
-        mPresenter.getUndoneTask(0);
+//        mPresenter.getUndoneTask(0);
+
+//        onRefresh();
     }
 
 
@@ -108,12 +123,26 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     }
 
     @Override
-    public void showUndoneTask(final TodoTaskDetail data, int loadType) {
+    public void showUndoneTask(final TodoTaskDetail datas, int loadType) {
 
 
-        setLoadDataResult(mUndoneAdapter, srlFuRefresh, data.getDatas(), loadType);
+        List<TodoSection> todoSections = new ArrayList<>();
+        LinkedHashSet<String> dates = new LinkedHashSet<>();
+        for (TodoTaskDetail.DatasBean todoDesBean : datas.getDatas()) {
+            dates.add(todoDesBean.getDateStr());
+        }
+        for (String date : dates) {
+            TodoSection todoSectionHead = new TodoSection(true, date);
+            todoSections.add(todoSectionHead);
+            for (TodoTaskDetail.DatasBean todoDesBean : datas.getDatas()) {
+                if (TextUtils.equals(date, todoDesBean.getDateStr())) {
+                    TodoSection todoSectionContent = new TodoSection(todoDesBean);
+                    todoSections.add(todoSectionContent);
+                }
+            }
+        }
 
-//        mUndoneAdapter.setNewData(data.getDatas());
+        setLoadDataResult(mUndoneAdapter, srlFuRefresh, todoSections, loadType);
 
     }
 
@@ -153,11 +182,11 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
         switch (view.getId()){
             case R.id.iv_iu_delete:
                 //删除的操作
-                mPresenter.deleteTodo(mUndoneAdapter.getItem(position).getId());
+                mPresenter.deleteTodo(mUndoneAdapter.getItem(position).t.getId());
                 break;
             case R.id.iv_iu_complete:
                 //表示状态
-                mPresenter.updataStatus(mUndoneAdapter.getItem(position).getId());
+                mPresenter.updataStatus(mUndoneAdapter.getItem(position).t.getId());
                 break;
         }
     }

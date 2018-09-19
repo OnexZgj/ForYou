@@ -1,5 +1,6 @@
 package com.it.onex.foryou.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -84,7 +85,7 @@ public class TodoTaskDetail {
             this.datas = datas;
         }
 
-        public static class DatasBean {
+        public static class DatasBean implements Serializable{
             /**
              * completeDate : null
              * completeDateStr :

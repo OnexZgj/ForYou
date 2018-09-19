@@ -2,12 +2,17 @@ package com.it.onex.foryou;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +21,12 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.SPUtils;
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.it.onex.foryou.activity.login.LoginActivity;
 import com.it.onex.foryou.base.BaseActivity;
 import com.it.onex.foryou.base.BaseFragment;
 import com.it.onex.foryou.fragment.done.DoneFragment;
@@ -58,13 +69,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         getPersimmions();
         initFragment();
         switchFragment(0);
-
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -72,14 +82,34 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menuHot) {
-            mToolbar.setTitle(R.string.hot_title);
 
-            //TODO 实现热门的Fragment
-            switchFragment(4);
-        } else if (item.getItemId() == R.id.menuSearch) {
-            ARouter.getInstance().build("/hotsearch/SearchActivity").navigation();
+
+
+            //清除Cookie
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("确定退出吗?");
+            builder.setMessage("小亲亲,你要重新登录哦");
+            builder.setNegativeButton(R.string.cancel,null);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    ClearableCookieJar cookieJar =
+                            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MainActivity.this));
+                    cookieJar.clear();
+                    SPUtils.getInstance().put("study", false);
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+
+                }
+            });
+            builder.show();
+
+
+
+
         }
-
         return super.onOptionsItemSelected(item);
 
     }
@@ -97,6 +127,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         BaseFragment targetFg = mFragments.get(position);
+
+        Slide slideTransition;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //Gravity.START部分机型崩溃java.lang.IllegalArgumentException: Invalid slide direction
+            slideTransition = new Slide(Gravity.LEFT);
+            slideTransition.setDuration(500);
+            targetFg.setEnterTransition(slideTransition);
+            targetFg.setExitTransition(slideTransition);
+        }
+
+
         Fragment lastFg = mFragments.get(mLastFgIndex);
         mLastFgIndex = position;
         ft.hide(lastFg);

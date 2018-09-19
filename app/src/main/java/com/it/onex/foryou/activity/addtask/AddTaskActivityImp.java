@@ -3,11 +3,9 @@ package com.it.onex.foryou.activity.addtask;
 import com.it.onex.foryou.base.BasePresenter;
 import com.it.onex.foryou.bean.AddToDoDetail;
 import com.it.onex.foryou.bean.DataResponse;
-import com.it.onex.foryou.constant.Constant;
 import com.it.onex.foryou.net.ApiService;
 import com.it.onex.foryou.net.RetrofitManager;
 import com.it.onex.foryou.utils.RxSchedulers;
-import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
 
@@ -36,13 +34,10 @@ public class AddTaskActivityImp extends BasePresenter<AddTaskActivityContract.Vi
                     public void accept(DataResponse<AddToDoDetail> dataResponse) throws Exception {
 
 
-                        if (dataResponse.getErrorCode() != 0) {
+                        if (dataResponse.getErrorCode() == 0) {
                             mView.showAddTaskSuccess();
-                        } else {
+                        }else{
                             mView.showFaild(dataResponse.getErrorMsg());
-                            if (dataResponse.getErrorMsg().equals(Constant.LOGIN_WARN)) {
-                                mView.jumpToLogin();
-                            }
                         }
                         mView.hideLoading();
                     }
