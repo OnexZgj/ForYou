@@ -37,7 +37,7 @@ public class UndoneAdapter extends BaseSectionQuickAdapter<TodoSection,BaseViewH
 
     @Inject
     public UndoneAdapter() {
-        super(R.layout.item_done, R.layout.todo_item_head,null);
+        super(R.layout.item_undone, R.layout.todo_item_head,null);
     }
 
     @Override
@@ -47,11 +47,11 @@ public class UndoneAdapter extends BaseSectionQuickAdapter<TodoSection,BaseViewH
 
     @Override
     protected void convert(BaseViewHolder helper, TodoSection item) {
-        helper.setText(R.id.tv_id_title,item.t.getTitle());
-        helper.setText(R.id.tv_id_des,item.t.getContent());
-        helper.setText(R.id.tv_id_date, TimeUtil.format(new Date(item.t.getDate())));
-        helper.addOnClickListener(R.id.iv_id_delete);
-        helper.addOnClickListener(R.id.iv_id_no_complete);
+        helper.setText(R.id.tv_iu_title,item.t.getTitle());
+        helper.setText(R.id.tv_iu_des,item.t.getContent());
+        helper.setText(R.id.tv_iu_date, TimeUtil.format(new Date(item.t.getDate())));
+        helper.addOnClickListener(R.id.iv_iu_delete);
+        helper.addOnClickListener(R.id.iv_iu_complete);
     }
 
 

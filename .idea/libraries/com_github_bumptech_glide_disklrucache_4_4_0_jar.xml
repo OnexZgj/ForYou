@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="com.github.bumptech.glide:disklrucache:4.4.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/disklrucache/4.4.0/870ad7a1cf814fcc6f8571afd50ff438cb46ee2a/disklrucache-4.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/disklrucache/4.4.0/1349cba2f6e6ea7be74796c4e8fde1c01f4346c1/disklrucache-4.4.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
