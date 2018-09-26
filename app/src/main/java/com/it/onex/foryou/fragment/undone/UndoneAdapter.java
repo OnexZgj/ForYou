@@ -50,8 +50,8 @@ public class UndoneAdapter extends BaseSectionQuickAdapter<TodoSection,BaseViewH
         helper.setText(R.id.tv_iu_title,item.t.getTitle());
         helper.setText(R.id.tv_iu_des,item.t.getContent());
         helper.setText(R.id.tv_iu_date, TimeUtil.format(new Date(item.t.getDate())));
-        helper.addOnClickListener(R.id.iv_iu_delete);
         helper.addOnClickListener(R.id.iv_iu_complete);
+        helper.addOnClickListener(R.id.iv_iu_delete);
     }
 
 
