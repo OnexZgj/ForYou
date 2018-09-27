@@ -22,7 +22,7 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
 
-            android:src="@drawable/complete" />
+            android:src="@mipmap/back" />
 
 
         <LinearLayout

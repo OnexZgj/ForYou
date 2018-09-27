@@ -1,8 +1,10 @@
 package com.it.onex.foryou.fragment.done;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -41,8 +43,8 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
     @Inject
     DoneAdapter mDoneAdapter;
-    private static final int REQUEST_EDIT_CODE=109;
-    private int updatePosition =-1;
+    private static final int REQUEST_EDIT_CODE = 109;
+    private int updatePosition = -1;
     private int deletePositon = -1;
 
     public static DoneFragment getInstance(int type) {
@@ -83,13 +85,13 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-        Intent intent=new Intent(getActivity(),AddTaskActivity.class);
+        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
 
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(Constant.TASK_KEY,mDoneAdapter.getItem(position));
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constant.TASK_KEY, mDoneAdapter.getItem(position));
         intent.putExtras(bundle);
 
-        startActivityForResult(intent,REQUEST_EDIT_CODE);
+        startActivityForResult(intent, REQUEST_EDIT_CODE);
 
     }
 
@@ -118,33 +120,33 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     @Override
     public void showDoneTask(final TodoTaskDetail datas, int loadType) {
 
-            List<TodoSection> todoSections = new ArrayList<>();
-            LinkedHashSet<String> dates = new LinkedHashSet<>();
+        List<TodoSection> todoSections = new ArrayList<>();
+        LinkedHashSet<String> dates = new LinkedHashSet<>();
+        for (TodoTaskDetail.DatasBean todoDesBean : datas.getDatas()) {
+            dates.add(todoDesBean.getDateStr());
+        }
+        for (String date : dates) {
+            TodoSection todoSectionHead = new TodoSection(true, date);
+            todoSections.add(todoSectionHead);
             for (TodoTaskDetail.DatasBean todoDesBean : datas.getDatas()) {
-                dates.add(todoDesBean.getDateStr());
-            }
-            for (String date : dates) {
-                TodoSection todoSectionHead = new TodoSection(true, date);
-                todoSections.add(todoSectionHead);
-                for (TodoTaskDetail.DatasBean todoDesBean : datas.getDatas()) {
-                    if (TextUtils.equals(date, todoDesBean.getDateStr())) {
-                        TodoSection todoSectionContent = new TodoSection(todoDesBean);
-                        todoSections.add(todoSectionContent);
-                    }
+                if (TextUtils.equals(date, todoDesBean.getDateStr())) {
+                    TodoSection todoSectionContent = new TodoSection(todoDesBean);
+                    todoSections.add(todoSectionContent);
                 }
             }
+        }
 
-        setLoadDataResult(mDoneAdapter, srlFuRefresh,todoSections , loadType);
+        setLoadDataResult(mDoneAdapter, srlFuRefresh, todoSections, loadType);
 
     }
 
     @Override
     public void showDeleteSuccess(String message) {
         if (deletePositon != -1) {
-            if (mDoneAdapter.getData().get(deletePositon-1).isHeader && (mDoneAdapter.getData().size()== deletePositon+2 || mDoneAdapter.getData().get(deletePositon+1).isHeader)) {
-                mDoneAdapter.getData().remove(deletePositon-1);
-                mDoneAdapter.getData().remove(deletePositon-1);
-                mDoneAdapter.notifyItemRangeRemoved(deletePositon-1,2);
+            if (mDoneAdapter.getData().get(deletePositon - 1).isHeader && (mDoneAdapter.getData().size() == deletePositon + 1 || mDoneAdapter.getData().get(deletePositon + 1).isHeader)) {
+                mDoneAdapter.getData().remove(deletePositon - 1);
+                mDoneAdapter.getData().remove(deletePositon - 1);
+                mDoneAdapter.notifyItemRangeRemoved(deletePositon - 1, 2);
             } else {
                 mDoneAdapter.getData().remove(deletePositon);
                 mDoneAdapter.notifyItemRemoved(deletePositon);
@@ -155,16 +157,37 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
     @Override
     public void showMarkUnComplete(String message) {
+
         if (updatePosition != -1) {
-            if (mDoneAdapter.getData().get(updatePosition-1).isHeader && (mDoneAdapter.getData().size()== updatePosition+2 || mDoneAdapter.getData().get(updatePosition+1).isHeader)) {
-                mDoneAdapter.getData().remove(updatePosition-1);
-                mDoneAdapter.getData().remove(updatePosition-1);
-                mDoneAdapter.notifyItemRangeRemoved(updatePosition-1,2);
+            if (mDoneAdapter.getData().get(updatePosition - 1).isHeader && (mDoneAdapter.getData().size() == updatePosition + 1 || mDoneAdapter.getData().get(updatePosition + 1).isHeader)) {
+                mDoneAdapter.getData().remove(updatePosition - 1);
+                mDoneAdapter.getData().remove(updatePosition - 1);
+                mDoneAdapter.notifyItemRangeRemoved(updatePosition - 1, 2);
             } else {
                 mDoneAdapter.getData().remove(updatePosition);
                 mDoneAdapter.notifyItemRemoved(updatePosition);
             }
         }
+
+
+//        if (updatePosition != -1) {
+//            if (mDoneAdapter.getData().get(updatePosition - 1).isHeader ) {
+//                if (mDoneAdapter.getData().size() == updatePosition + 1) {
+//                    //第一种情况，数据是最后一条
+//                    mDoneAdapter.getData().remove(updatePosition - 1);
+//                    mDoneAdapter.getData().remove(updatePosition - 1);
+//                    mDoneAdapter.notifyItemRangeRemoved(updatePosition - 1, 2);
+//                } else if (mDoneAdapter.getData().get(updatePosition + 1).isHeader) {
+//                    //第二种情况 数据非最后一条
+//                    mDoneAdapter.getData().remove(updatePosition - 1);
+//                    mDoneAdapter.getData().remove(updatePosition - 1);
+//                    mDoneAdapter.notifyItemRangeRemoved(updatePosition - 1, 2);
+//                }
+//            }else{
+//                mDoneAdapter.getData().remove(updatePosition);
+//                mDoneAdapter.notifyItemRemoved(updatePosition);
+//            }
+//        }
         showSuccess(message);
     }
 
@@ -176,7 +199,7 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_BACK:
                 onRefresh();
                 break;
@@ -190,13 +213,28 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()) {
             case R.id.iv_id_no_complete:
-                updatePosition=position;
+                updatePosition = position;
                 mPresenter.updataStatus(mDoneAdapter.getItem(position).t.getId());
                 break;
             case R.id.iv_id_delete:
-                deletePositon=position;
-                mPresenter.deleteTodo(mDoneAdapter.getItem(position).t.getId());
+
+                showDeleteDialog(position);
                 break;
         }
+    }
+
+    private void showDeleteDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.delete_todo);
+        builder.setMessage(R.string.sure_delete_todo);
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deletePositon = position;
+                mPresenter.deleteTodo(mDoneAdapter.getItem(position).t.getId());
+            }
+        });
+        builder.show();
     }
 }

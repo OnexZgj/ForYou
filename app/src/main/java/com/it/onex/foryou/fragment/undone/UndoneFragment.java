@@ -1,9 +1,11 @@
 package com.it.onex.foryou.fragment.undone;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -137,7 +139,6 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     @Override
     public void showUndoneTask(final TodoTaskDetail datas, int loadType) {
 
-
         List<TodoSection> todoSections = new ArrayList<>();
         LinkedHashSet<String> dates = new LinkedHashSet<>();
         for (TodoTaskDetail.DatasBean todoDesBean : datas.getDatas()) {
@@ -153,16 +154,14 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
                 }
             }
         }
-
         setLoadDataResult(mUndoneAdapter, srlFuRefresh, todoSections, loadType);
-
     }
 
 
     @Override
     public void showDeleteSuccess(String message) {
         if (deletePosition != -1) {
-            if (mUndoneAdapter.getData().get(deletePosition-1).isHeader && (mUndoneAdapter.getData().size()== deletePosition+2 || mUndoneAdapter.getData().get(deletePosition+1).isHeader)) {
+            if (mUndoneAdapter.getData().get(deletePosition-1).isHeader && (mUndoneAdapter.getData().size()== deletePosition+1 || mUndoneAdapter.getData().get(deletePosition+1).isHeader)) {
                 mUndoneAdapter.getData().remove(deletePosition-1);
                 mUndoneAdapter.getData().remove(deletePosition-1);
                 mUndoneAdapter.notifyItemRangeRemoved(deletePosition-1,2);
@@ -178,7 +177,7 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     @Override
     public void showMarkComplete(String message) {
         if (updatePosition != -1) {
-            if (mUndoneAdapter.getData().get(updatePosition-1).isHeader && (mUndoneAdapter.getData().size()== updatePosition+2 || mUndoneAdapter.getData().get(updatePosition+1).isHeader)) {
+            if (mUndoneAdapter.getData().get(updatePosition-1).isHeader && (mUndoneAdapter.getData().size()== updatePosition+1 || mUndoneAdapter.getData().get(updatePosition+1).isHeader)) {
                 mUndoneAdapter.getData().remove(updatePosition-1);
                 mUndoneAdapter.getData().remove(updatePosition-1);
                 mUndoneAdapter.notifyItemRangeRemoved(updatePosition-1,2);
@@ -195,6 +194,24 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     public void onViewClicked() {
         startActivityForResult(new Intent(getActivity(), AddTaskActivity.class), REQUEST_BACK);
     }
+
+    private void showDeleteDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.delete_todo);
+        builder.setMessage(R.string.sure_delete_todo);
+        builder.setNegativeButton(R.string.cancel,null);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deletePosition = position;
+                mPresenter.deleteTodo(mUndoneAdapter.getItem(position).t.getId());
+            }
+        });
+        builder.show();
+    }
+
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -219,8 +236,7 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
         switch (view.getId()) {
             case R.id.iv_iu_delete:
                 //删除的操作
-                deletePosition = position;
-                mPresenter.deleteTodo(mUndoneAdapter.getItem(position).t.getId());
+                showDeleteDialog(position);
                 break;
             case R.id.iv_iu_complete:
                 //表示状态
