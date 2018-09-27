@@ -1,6 +1,7 @@
 package com.it.onex.foryou.fragment.done;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.it.onex.foryou.activity.addtask.AddTaskActivity;
 import com.it.onex.foryou.base.BaseFragment;
 import com.it.onex.foryou.bean.TodoSection;
 import com.it.onex.foryou.bean.TodoTaskDetail;
+import com.it.onex.foryou.constant.Constant;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -39,6 +41,9 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
     @Inject
     DoneAdapter mDoneAdapter;
+    private static final int REQUEST_EDIT_CODE=109;
+    private int updatePosition =-1;
+    private int deletePositon = -1;
 
     public static DoneFragment getInstance(int type) {
         mType = type;
@@ -77,10 +82,15 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//        ARouter.getInstance().build("/article/ArticleTypeActivity")
-//                .withString(Constant.CONTENT_TITLE_KEY, mUndoneAdapter.getItem(position).getDoneList().get(0).getTodoList().get(0).getTitle())
-//                .withObject(Constant.CONTENT_CHILDREN_DATA_KEY, mUndoneAdapter.getItem(position).getChildren())
-//                .navigation();
+
+        Intent intent=new Intent(getActivity(),AddTaskActivity.class);
+
+        Bundle bundle=new Bundle();
+        bundle.putSerializable(Constant.TASK_KEY,mDoneAdapter.getItem(position));
+        intent.putExtras(bundle);
+
+        startActivityForResult(intent,REQUEST_EDIT_CODE);
+
     }
 
     @Override
@@ -130,14 +140,32 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
     @Override
     public void showDeleteSuccess(String message) {
+        if (deletePositon != -1) {
+            if (mDoneAdapter.getData().get(deletePositon-1).isHeader && (mDoneAdapter.getData().size()== deletePositon+2 || mDoneAdapter.getData().get(deletePositon+1).isHeader)) {
+                mDoneAdapter.getData().remove(deletePositon-1);
+                mDoneAdapter.getData().remove(deletePositon-1);
+                mDoneAdapter.notifyItemRangeRemoved(deletePositon-1,2);
+            } else {
+                mDoneAdapter.getData().remove(deletePositon);
+                mDoneAdapter.notifyItemRemoved(deletePositon);
+            }
+        }
         showSuccess(message);
-        mPresenter.refresh();
     }
 
     @Override
     public void showMarkUnComplete(String message) {
+        if (updatePosition != -1) {
+            if (mDoneAdapter.getData().get(updatePosition-1).isHeader && (mDoneAdapter.getData().size()== updatePosition+2 || mDoneAdapter.getData().get(updatePosition+1).isHeader)) {
+                mDoneAdapter.getData().remove(updatePosition-1);
+                mDoneAdapter.getData().remove(updatePosition-1);
+                mDoneAdapter.notifyItemRangeRemoved(updatePosition-1,2);
+            } else {
+                mDoneAdapter.getData().remove(updatePosition);
+                mDoneAdapter.notifyItemRemoved(updatePosition);
+            }
+        }
         showSuccess(message);
-        mPresenter.refresh();
     }
 
 
@@ -148,8 +176,13 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_BACK) {
-            onRefresh();
+        switch (requestCode){
+            case REQUEST_BACK:
+                onRefresh();
+                break;
+            case REQUEST_EDIT_CODE:
+                onRefresh();
+                break;
         }
     }
 
@@ -157,9 +190,11 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()) {
             case R.id.iv_id_no_complete:
+                updatePosition=position;
                 mPresenter.updataStatus(mDoneAdapter.getItem(position).t.getId());
                 break;
             case R.id.iv_id_delete:
+                deletePositon=position;
                 mPresenter.deleteTodo(mDoneAdapter.getItem(position).t.getId());
                 break;
         }

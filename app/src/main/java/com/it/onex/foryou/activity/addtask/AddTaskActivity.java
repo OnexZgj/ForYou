@@ -1,6 +1,7 @@
 package com.it.onex.foryou.activity.addtask;
 
 import android.app.DatePickerDialog;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.it.onex.foryou.R;
 import com.it.onex.foryou.base.BaseActivity;
+import com.it.onex.foryou.bean.TodoSection;
+import com.it.onex.foryou.constant.Constant;
 import com.it.onex.foryou.utils.TimeUtil;
 
 import java.util.Date;
@@ -31,17 +34,13 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     @BindView(R.id.btn_adt_save)
     Button btnAdtSave;
 
-//    //选择类型的view
-//    @BindView(R.id.ll_choose_type)
-//    LinearLayout llChooseType;
-
-//    @BindView(R.id.tv_type_name)
-//    TextView tvTypeName;
 
     int mYear = 2018;
     int mMonth = 8;
     int mDay = 18;
     private String mCustomType = "0";
+    private int mEditType=0;
+    private TodoSection todoSection;
 
 
     @Override
@@ -56,14 +55,27 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
 
     @Override
     protected void initView() {
-        mToolbar.setTitle("新增待办");
 
-        String format = TimeUtil.format(new Date(), TimeUtil.DEFAULT_PATTERN);
 
-        mYear=Integer.parseInt(format.split("-")[0]);
-        mMonth=Integer.parseInt(format.split("-")[1]);
-        mDay=Integer.parseInt(format.split("-")[2]);
-        tvAdtDate.setText(mYear + "-" + mMonth + "-" + mDay);
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            todoSection = (TodoSection) bundle.getSerializable(Constant.TASK_KEY);
+            if (null != todoSection) {
+                mToolbar.setTitle("待办详情");
+                etAdtTitle.setText(todoSection.t.getTitle());
+                etAdtContent.setText(todoSection.t.getContent());
+                tvAdtDate.setText(todoSection.t.getDateStr());
+                btnAdtSave.setText("更新");
+            }
+        } else {
+            mToolbar.setTitle("新增待办");
+            String format = TimeUtil.format(new Date(), TimeUtil.DEFAULT_PATTERN);
+            mYear = Integer.parseInt(format.split("-")[0]);
+            mMonth = Integer.parseInt(format.split("-")[1]);
+            mDay = Integer.parseInt(format.split("-")[2]);
+            tvAdtDate.setText(mYear + "-" + mMonth + "-" + mDay);
+        }
     }
 
 
@@ -82,19 +94,31 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
                 break;
             case R.id.btn_adt_save:
                 showLoading();
-                mPresenter.addTask(etAdtTitle.getText().toString(), etAdtContent.getText().toString(), tvAdtDate.getText().toString(), mCustomType);
+                switch (btnAdtSave.getText().toString()) {
+                    case "添加":
+
+                        mPresenter.addTask(etAdtTitle.getText().toString(), etAdtContent.getText().toString(), tvAdtDate.getText().toString(), mCustomType);
+                        break;
+                    case "更新":
+                        mPresenter.updateTask(todoSection.t.getId(),etAdtTitle.getText().toString(), etAdtContent.getText().toString(), tvAdtDate.getText().toString(), todoSection.t.getStatus(),mEditType);
+                        break;
+                }
+
                 break;
-//            case R.id.ll_choose_type:
-//                showBottomSheet();
-//                break;
         }
     }
 
     @Override
     public void showAddTaskSuccess() {
         showSuccess("添加成功!");
+        finish();
     }
 
+    @Override
+    public void showUpdateSuccess(String str) {
+        showSuccess(str);
+        finish();
+    }
 
 
     /**

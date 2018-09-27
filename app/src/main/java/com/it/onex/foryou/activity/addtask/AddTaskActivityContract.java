@@ -12,6 +12,8 @@ public interface AddTaskActivityContract {
 
     interface View extends BaseContract.BaseView{
         void  showAddTaskSuccess();
+
+        void showUpdateSuccess(String str);
     }
 
     interface Presenter extends BaseContract.BasePresenter<View>{
@@ -25,6 +27,14 @@ public interface AddTaskActivityContract {
          */
         void addTask(String title,String content,String date, String state);
 
+        /**
+         * 更新一条待办
+         * @param title
+         * @param content
+         * @param date
+         * @param state
+         */
+        void updateTask(int id,String title,String content,String date, int state,int type);
     }
 
 

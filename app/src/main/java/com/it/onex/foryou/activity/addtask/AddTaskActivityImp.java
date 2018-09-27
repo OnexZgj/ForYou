@@ -33,7 +33,6 @@ public class AddTaskActivityImp extends BasePresenter<AddTaskActivityContract.Vi
                     @Override
                     public void accept(DataResponse<AddToDoDetail> dataResponse) throws Exception {
 
-
                         if (dataResponse.getErrorCode() == 0) {
                             mView.showAddTaskSuccess();
                         }else{
@@ -45,6 +44,30 @@ public class AddTaskActivityImp extends BasePresenter<AddTaskActivityContract.Vi
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         mView.showFaild("添加待办失败,请重试...");
+                        mView.hideLoading();
+                    }
+                });
+    }
+
+    @Override
+    public void updateTask(int id,String title, String content, String date, int state,int type) {
+        RetrofitManager.create(ApiService.class).updateTodo(id,title,content,date,state,type)
+                .compose(mView.<DataResponse>bindToLife())
+                .compose(RxSchedulers.<DataResponse>applySchedulers())
+                .subscribe(new Consumer<DataResponse>() {
+                    @Override
+                    public void accept(DataResponse dataResponse) throws Exception {
+                        if (dataResponse.getErrorCode()==0){
+                            mView.showUpdateSuccess("更新成功");
+                        }else {
+                            mView.showFaild(dataResponse.getErrorMsg());
+                        }
+                        mView.hideLoading();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        mView.showFaild("更新失败,请重试...");
                         mView.hideLoading();
                     }
                 });

@@ -1,6 +1,7 @@
 package com.it.onex.foryou.fragment.undone;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.it.onex.foryou.activity.addtask.AddTaskActivity;
 import com.it.onex.foryou.base.BaseFragment;
 import com.it.onex.foryou.bean.TodoSection;
 import com.it.onex.foryou.bean.TodoTaskDetail;
+import com.it.onex.foryou.constant.Constant;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -41,7 +43,16 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     UndoneAdapter mUndoneAdapter;
     @BindView(R.id.fab_fu_add_task)
     FloatingActionButton fabFuAddTask;
-    private int REQUEST_BACK = 1001;
+    private static final int REQUEST_BACK = 101;
+    private static final int REQUEST_EDIT_CODE = 105;
+    /**
+     * 删除的position
+     */
+    private int deletePosition = -1;
+    /**
+     * 更新的position
+     */
+    private int updatePosition = -1;
 
 
     public static UndoneFragment getInstance(int type) {
@@ -59,11 +70,10 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
         mFragmentComponent.inject(this);
     }
 
-
     @Override
     protected void initView(View view) {
 
-        srlFuRefresh.setColorSchemeResources(R.color.srl_pink,R.color.srl_pink2,R.color.srl_pink3,R.color.srl_pink4,R.color.srl_pink5);
+        srlFuRefresh.setColorSchemeResources(R.color.srl_pink, R.color.srl_pink2, R.color.srl_pink3, R.color.srl_pink4, R.color.srl_pink5);
 
         rvFuList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvFuList.setAdapter(mUndoneAdapter);
@@ -84,21 +94,23 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
 
                 mPresenter.getUndoneTask(0);
             }
-        },20);
+        }, 20);
 
         /**请求数据*/
 //        mPresenter.getUndoneTask(0);
 
-//        onRefresh();
     }
 
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//        ARouter.getInstance().build("/article/ArticleTypeActivity")
-//                .withString(Constant.CONTENT_TITLE_KEY, mUndoneAdapter.getItem(position).getDoneList().get(0).getTodoList().get(0).getTitle())
-//                .withObject(Constant.CONTENT_CHILDREN_DATA_KEY, mUndoneAdapter.getItem(position).getChildren())
-//                .navigation();
+
+        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constant.TASK_KEY, mUndoneAdapter.getItem(position));
+        intent.putExtras(bundle);
+        startActivityForResult(intent, REQUEST_EDIT_CODE);
+
     }
 
     @Override
@@ -149,27 +161,52 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
 
     @Override
     public void showDeleteSuccess(String message) {
+        if (deletePosition != -1) {
+            if (mUndoneAdapter.getData().get(deletePosition-1).isHeader && (mUndoneAdapter.getData().size()== deletePosition+2 || mUndoneAdapter.getData().get(deletePosition+1).isHeader)) {
+                mUndoneAdapter.getData().remove(deletePosition-1);
+                mUndoneAdapter.getData().remove(deletePosition-1);
+                mUndoneAdapter.notifyItemRangeRemoved(deletePosition-1,2);
+            } else {
+                mUndoneAdapter.getData().remove(deletePosition);
+                mUndoneAdapter.notifyItemRemoved(deletePosition);
+            }
+        }
         showSuccess(message);
-        mPresenter.refresh();
+//        mPresenter.refresh();
     }
 
     @Override
     public void showMarkComplete(String message) {
+        if (updatePosition != -1) {
+            if (mUndoneAdapter.getData().get(updatePosition-1).isHeader && (mUndoneAdapter.getData().size()== updatePosition+2 || mUndoneAdapter.getData().get(updatePosition+1).isHeader)) {
+                mUndoneAdapter.getData().remove(updatePosition-1);
+                mUndoneAdapter.getData().remove(updatePosition-1);
+                mUndoneAdapter.notifyItemRangeRemoved(updatePosition-1,2);
+            } else {
+                mUndoneAdapter.getData().remove(updatePosition);
+                mUndoneAdapter.notifyItemRemoved(updatePosition);
+            }
+        }
         showSuccess(message);
-        mPresenter.refresh();
     }
 
 
     @OnClick(R.id.fab_fu_add_task)
     public void onViewClicked() {
-        startActivityForResult(new Intent(getActivity(),AddTaskActivity.class),REQUEST_BACK);
+        startActivityForResult(new Intent(getActivity(), AddTaskActivity.class), REQUEST_BACK);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode==REQUEST_BACK){
-            onRefresh();
+        switch (requestCode) {
+            case REQUEST_BACK:
+                onRefresh();
+                break;
+            case REQUEST_EDIT_CODE:
+                onRefresh();
+                break;
         }
+
     }
 
     @Override
@@ -179,13 +216,15 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
 
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_iu_delete:
                 //删除的操作
+                deletePosition = position;
                 mPresenter.deleteTodo(mUndoneAdapter.getItem(position).t.getId());
                 break;
             case R.id.iv_iu_complete:
                 //表示状态
+                updatePosition = position;
                 mPresenter.updataStatus(mUndoneAdapter.getItem(position).t.getId());
                 break;
         }

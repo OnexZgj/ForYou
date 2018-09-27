@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         Slide slideTransition;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //Gravity.START部分机型崩溃java.lang.IllegalArgumentException: Invalid slide direction
-            slideTransition = new Slide(Gravity.LEFT);
+            slideTransition = new Slide(Gravity.BOTTOM);
             slideTransition.setDuration(500);
             targetFg.setEnterTransition(slideTransition);
             targetFg.setExitTransition(slideTransition);

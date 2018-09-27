@@ -133,6 +133,8 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
      * @param loadType
      */
     protected void setLoadDataResult(BaseQuickAdapter baseQuickAdapter, SwipeRefreshLayout refreshLayout, List list, @LoadType.checker int loadType) {
+
+        baseQuickAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         switch (loadType) {
             case LoadType.TYPE_REFRESH_SUCCESS:
                 baseQuickAdapter.setNewData(list);

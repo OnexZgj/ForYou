@@ -61,4 +61,6 @@ public class Constant {
 
     public static final String IS_FIRST_LOGIN = "is_first_login";
     public static final String LOGIN_WARN = "请先登录";
+    public static final String TASK_KEY = "task_key";
+
 }
