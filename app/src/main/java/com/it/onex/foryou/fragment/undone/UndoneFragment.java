@@ -275,6 +275,8 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
                 rvFuList.scrollToPosition(clickPosition);
 
 
+
+
 //                onRefresh();
                 break;
         }
