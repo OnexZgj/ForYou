@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.it.onex.foryou.R;
 import com.it.onex.foryou.activity.addtask.AddTaskActivity;
 import com.it.onex.foryou.base.BaseFragment;
+import com.it.onex.foryou.bean.AddToDoDetail;
 import com.it.onex.foryou.bean.TodoSection;
 import com.it.onex.foryou.bean.TodoTaskDetail;
 import com.it.onex.foryou.constant.Constant;
@@ -55,6 +56,10 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
      * 更新的position
      */
     private int updatePosition = -1;
+    /**
+     * 记录点击的position
+     */
+    private int clickPosition = -1;
 
 
     public static UndoneFragment getInstance(int type) {
@@ -74,7 +79,6 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
 
     @Override
     protected void initView(View view) {
-
         srlFuRefresh.setColorSchemeResources(R.color.srl_pink, R.color.srl_pink2, R.color.srl_pink3, R.color.srl_pink4, R.color.srl_pink5);
 
         rvFuList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -107,6 +111,7 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
+        clickPosition=position;
         Intent intent = new Intent(getActivity(), AddTaskActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constant.TASK_KEY, mUndoneAdapter.getItem(position));
@@ -217,10 +222,60 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_BACK:
-                onRefresh();
+                AddToDoDetail addData = (AddToDoDetail) data.getSerializableExtra(Constant.ADD_DATA);
+
+
+                TodoTaskDetail.DatasBean tempData=new TodoTaskDetail.DatasBean();
+                tempData.setDateStr(addData.getDateStr());
+                tempData.setId(addData.getId());
+                tempData.setTitle(addData.getTitle());
+                tempData.setContent(addData.getContent());
+                tempData.setStatus(addData.getStatus());
+                tempData.setType(addData.getType());
+
+                List<TodoSection> todoSections = mUndoneAdapter.getData();
+                for (int i = 0; i < todoSections.size(); i++) {
+                    TodoSection todoSection = todoSections.get(i);
+                    if (todoSection.isHeader && TextUtils.equals(todoSection.header, addData.getDateStr())) {
+
+
+                        TodoSection section = new TodoSection(tempData);
+                        mUndoneAdapter.getData().add(i+1,section);
+                        mUndoneAdapter.notifyItemInserted(i+1);
+                        rvFuList.scrollToPosition(i+1);
+                        return;
+                    }
+                }
+                TodoSection sectionHead = new TodoSection(true,addData.getDateStr());
+                mUndoneAdapter.getData().add(0, sectionHead);
+
+                TodoSection section = new TodoSection(tempData);
+                mUndoneAdapter.getData().add(1, section);
+                mUndoneAdapter.notifyItemRangeInserted(0,2);
+                rvFuList.scrollToPosition(0);
+
+
                 break;
             case REQUEST_EDIT_CODE:
-                onRefresh();
+                AddToDoDetail updateData = (AddToDoDetail) data.getSerializableExtra(Constant.UPDATE_DATA);
+
+                TodoTaskDetail.DatasBean tempUpdate=new TodoTaskDetail.DatasBean();
+                tempUpdate.setDateStr(updateData.getDateStr());
+                tempUpdate.setId(updateData.getId());
+                tempUpdate.setTitle(updateData.getTitle());
+                tempUpdate.setContent(updateData.getContent());
+                tempUpdate.setStatus(updateData.getStatus());
+                tempUpdate.setType(updateData.getType());
+
+
+                mUndoneAdapter.getData().remove(clickPosition);
+                TodoSection udpateData = new TodoSection(tempUpdate);
+                mUndoneAdapter.getData().add(clickPosition,udpateData);
+                mUndoneAdapter.notifyItemChanged(clickPosition);
+                rvFuList.scrollToPosition(clickPosition);
+
+
+//                onRefresh();
                 break;
         }
 

@@ -63,4 +63,15 @@ public class Constant {
     public static final String LOGIN_WARN = "请先登录";
     public static final String TASK_KEY = "task_key";
 
+    public static final int ADD_SUCCESS = 103;
+    public static final int UPDATE_SUCCESS=109;
+    /**
+     * 添加成功的数据
+     */
+    public static final String ADD_DATA = "add_data";
+
+    /**
+     * 更新成功的数据
+     */
+    public static final String UPDATE_DATA="update_data";
 }

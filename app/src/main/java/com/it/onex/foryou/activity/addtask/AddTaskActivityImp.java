@@ -34,7 +34,8 @@ public class AddTaskActivityImp extends BasePresenter<AddTaskActivityContract.Vi
                     public void accept(DataResponse<AddToDoDetail> dataResponse) throws Exception {
 
                         if (dataResponse.getErrorCode() == 0) {
-                            mView.showAddTaskSuccess();
+                            mView.showAddTaskSuccess(dataResponse.getData());
+
                         }else{
                             mView.showFaild(dataResponse.getErrorMsg());
                         }
@@ -52,13 +53,13 @@ public class AddTaskActivityImp extends BasePresenter<AddTaskActivityContract.Vi
     @Override
     public void updateTask(int id,String title, String content, String date, int state,int type) {
         RetrofitManager.create(ApiService.class).updateTodo(id,title,content,date,state,type)
-                .compose(mView.<DataResponse>bindToLife())
-                .compose(RxSchedulers.<DataResponse>applySchedulers())
-                .subscribe(new Consumer<DataResponse>() {
+                .compose(mView.<DataResponse<AddToDoDetail>>bindToLife())
+                .compose(RxSchedulers.<DataResponse<AddToDoDetail>>applySchedulers())
+                .subscribe(new Consumer<DataResponse<AddToDoDetail>>() {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void accept(DataResponse<AddToDoDetail> dataResponse) throws Exception {
                         if (dataResponse.getErrorCode()==0){
-                            mView.showUpdateSuccess("更新成功");
+                            mView.showUpdateSuccess(dataResponse.getData());
                         }else {
                             mView.showFaild(dataResponse.getErrorMsg());
                         }
@@ -72,4 +73,9 @@ public class AddTaskActivityImp extends BasePresenter<AddTaskActivityContract.Vi
                     }
                 });
     }
+
+
+
+
+
 }

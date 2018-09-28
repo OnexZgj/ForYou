@@ -1,6 +1,7 @@
 package com.it.onex.foryou.activity.addtask;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.it.onex.foryou.R;
 import com.it.onex.foryou.base.BaseActivity;
+import com.it.onex.foryou.bean.AddToDoDetail;
 import com.it.onex.foryou.bean.TodoSection;
 import com.it.onex.foryou.constant.Constant;
 import com.it.onex.foryou.utils.TimeUtil;
@@ -109,16 +111,26 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     }
 
     @Override
-    public void showAddTaskSuccess() {
+    public void showAddTaskSuccess(AddToDoDetail data) {
+
         showSuccess("添加成功!");
+        Intent intent=new Intent();
+        intent.putExtra(Constant.ADD_DATA,data);
+        setResult(RESULT_OK,intent);
+
         finish();
     }
 
     @Override
-    public void showUpdateSuccess(String str) {
-        showSuccess(str);
+    public void showUpdateSuccess(AddToDoDetail data) {
+        showSuccess("更新成功!");
+        Intent intent=new Intent();
+        intent.putExtra(Constant.UPDATE_DATA,data);
+        setResult(RESULT_OK,intent);
         finish();
     }
+
+
 
 
     /**

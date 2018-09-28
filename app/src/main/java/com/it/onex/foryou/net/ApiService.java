@@ -69,7 +69,7 @@ public interface ApiService {
 
     @POST("lg/todo/update/{id}/json")
     @FormUrlEncoded
-    Observable<DataResponse> updateTodo(@Path("id") int id,@Field("title") String title, @Field("content") String content, @Field("date") String date,@Field("status") int status, @Field("type") int type);
+    Observable<DataResponse<AddToDoDetail>> updateTodo(@Path("id") int id,@Field("title") String title, @Field("content") String content, @Field("date") String date,@Field("status") int status, @Field("type") int type);
 
     /**
      * 仅仅更新状态

@@ -52,6 +52,8 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
 
     protected abstract void initView();
 
+
+
     /**
      * 是否显示返回键
      *
