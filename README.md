@@ -2,7 +2,7 @@
 ### 1、应用介绍:
 
 使用MVP+Dagger2+Retrofit+Rxjava2+RxLifecycle+ARouter框架构建
-虽然项目很小，但五脏俱全，很适合学习！
+虽然项目很小，但五脏俱全，很适合学习和研究！
 
 接口和服务器是鸿洋大大提供在http://www.wanandroid.com
 API地址: http://www.wanandroid.com/blog/show/2
