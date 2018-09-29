@@ -18,7 +18,7 @@ import yanzhikai.textpath.SyncTextPathView;
 import yanzhikai.textpath.painter.FireworksPainter;
 
 /**
- * Created by Linsa on 2018/9/3:11:00.
+ * Created by OnexZgj on 2018/9/3:11:00.
  * des:
  */
 

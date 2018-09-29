@@ -13,7 +13,7 @@ import java.util.List;
  * 加载显示Fragment的ViewPagerAdapter基类
  * 提供可以刷新的方法
  *
- * Created by Linsa on 2018/6/20:10:41.
+ * Created by OnexZgj on 2018/6/20:10:41.
  * des:
  */
 public class BasePagerFragmentAdapter extends FragmentPagerAdapter {
