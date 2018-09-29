@@ -1,7 +1,7 @@
 package com.it.onex.foryou.activity.addtask;
 
 import com.it.onex.foryou.base.BaseContract;
-import com.it.onex.foryou.bean.AddToDoDetail;
+import com.it.onex.foryou.bean.TodoTaskDetail;
 
 /**
  * Created by Linsa on 2018/8/20:11:23.
@@ -12,9 +12,9 @@ public interface AddTaskActivityContract {
 
 
     interface View extends BaseContract.BaseView{
-        void  showAddTaskSuccess(AddToDoDetail data);
+        void  showAddTaskSuccess(TodoTaskDetail.DatasBean data);
 
-        void showUpdateSuccess(AddToDoDetail data);
+        void showUpdateSuccess(TodoTaskDetail.DatasBean data);
     }
 
     interface Presenter extends BaseContract.BasePresenter<View>{

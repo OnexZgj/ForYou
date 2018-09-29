@@ -1,6 +1,5 @@
 package com.it.onex.foryou.net;
 
-import com.it.onex.foryou.bean.AddToDoDetail;
 import com.it.onex.foryou.bean.DataResponse;
 import com.it.onex.foryou.bean.TodoTaskDetail;
 import com.it.onex.foryou.bean.UndoneTaskBean;
@@ -44,7 +43,7 @@ public interface ApiService {
      */
     @POST("lg/todo/add/json")
     @FormUrlEncoded
-    Observable<DataResponse<AddToDoDetail>> addTask(@Field("title") String title, @Field("content") String contennt, @Field("date") String date, @Field("type") String type);
+    Observable<DataResponse<TodoTaskDetail.DatasBean>> addTask(@Field("title") String title, @Field("content") String contennt, @Field("date") String date, @Field("type") String type);
 
 
     /**
@@ -69,7 +68,7 @@ public interface ApiService {
 
     @POST("lg/todo/update/{id}/json")
     @FormUrlEncoded
-    Observable<DataResponse<AddToDoDetail>> updateTodo(@Path("id") int id,@Field("title") String title, @Field("content") String content, @Field("date") String date,@Field("status") int status, @Field("type") int type);
+    Observable<DataResponse<TodoTaskDetail.DatasBean>> updateTodo(@Path("id") int id,@Field("title") String title, @Field("content") String content, @Field("date") String date,@Field("status") int status, @Field("type") int type);
 
     /**
      * 仅仅更新状态

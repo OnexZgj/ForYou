@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.it.onex.foryou.R;
 import com.it.onex.foryou.base.BaseActivity;
-import com.it.onex.foryou.bean.AddToDoDetail;
 import com.it.onex.foryou.bean.TodoSection;
+import com.it.onex.foryou.bean.TodoTaskDetail;
 import com.it.onex.foryou.constant.Constant;
 import com.it.onex.foryou.utils.TimeUtil;
 
@@ -111,7 +111,7 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     }
 
     @Override
-    public void showAddTaskSuccess(AddToDoDetail data) {
+    public void showAddTaskSuccess(TodoTaskDetail.DatasBean data) {
 
         showSuccess("添加成功!");
         Intent intent=new Intent();
@@ -122,7 +122,7 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     }
 
     @Override
-    public void showUpdateSuccess(AddToDoDetail data) {
+    public void showUpdateSuccess(TodoTaskDetail.DatasBean data) {
         showSuccess("更新成功!");
         Intent intent=new Intent();
         intent.putExtra(Constant.UPDATE_DATA,data);

@@ -27,6 +27,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by OnexZgj on 2018/8/18:11:10.
  * des:待办Fragment
@@ -46,6 +48,10 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     private static final int REQUEST_EDIT_CODE = 109;
     private int updatePosition = -1;
     private int deletePositon = -1;
+    /**
+     * 当前点击的position
+     */
+    private int clickPosition = -1;
 
     public static DoneFragment getInstance(int type) {
         mType = type;
@@ -85,12 +91,11 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
+        clickPosition = position;
         Intent intent = new Intent(getActivity(), AddTaskActivity.class);
-
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constant.TASK_KEY, mDoneAdapter.getItem(position));
         intent.putExtras(bundle);
-
         startActivityForResult(intent, REQUEST_EDIT_CODE);
 
     }
@@ -135,9 +140,7 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
                 }
             }
         }
-
         setLoadDataResult(mDoneAdapter, srlFuRefresh, todoSections, loadType);
-
     }
 
     @Override
@@ -199,13 +202,47 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_BACK:
-                onRefresh();
-                break;
-            case REQUEST_EDIT_CODE:
-                onRefresh();
-                break;
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_BACK:
+                    if (data != null) {
+                        TodoTaskDetail.DatasBean addData = (TodoTaskDetail.DatasBean) data.getSerializableExtra(Constant.ADD_DATA);
+
+                        List<TodoSection> todoSections = mDoneAdapter.getData();
+                        for (int i = 0; i < todoSections.size(); i++) {
+                            TodoSection todoSection = todoSections.get(i);
+                            if (todoSection.isHeader && TextUtils.equals(todoSection.header, addData.getDateStr())) {
+
+
+                                TodoSection section = new TodoSection(addData);
+                                mDoneAdapter.getData().add(i + 1, section);
+                                mDoneAdapter.notifyItemInserted(i + 1);
+                                rvFuList.scrollToPosition(i + 1);
+                                return;
+                            }
+                        }
+                        TodoSection sectionHead = new TodoSection(true, addData.getDateStr());
+                        mDoneAdapter.getData().add(0, sectionHead);
+
+                        TodoSection section = new TodoSection(addData);
+                        mDoneAdapter.getData().add(1, section);
+                        mDoneAdapter.notifyItemRangeInserted(0, 2);
+                        rvFuList.scrollToPosition(0);
+                    }
+
+                    break;
+                case REQUEST_EDIT_CODE:
+                    if (data != null) {
+                        TodoTaskDetail.DatasBean updateData = (TodoTaskDetail.DatasBean) data.getSerializableExtra(Constant.UPDATE_DATA);
+
+                        mDoneAdapter.getData().remove(clickPosition);
+                        TodoSection udpateData = new TodoSection(updateData);
+                        mDoneAdapter.getData().add(clickPosition, udpateData);
+                        mDoneAdapter.notifyItemChanged(clickPosition);
+                        rvFuList.scrollToPosition(clickPosition);
+                    }
+                    break;
+            }
         }
     }
 
@@ -217,7 +254,6 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
                 mPresenter.updataStatus(mDoneAdapter.getItem(position).t.getId());
                 break;
             case R.id.iv_id_delete:
-
                 showDeleteDialog(position);
                 break;
         }

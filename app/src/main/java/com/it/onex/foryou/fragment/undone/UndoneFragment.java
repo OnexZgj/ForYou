@@ -15,7 +15,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.it.onex.foryou.R;
 import com.it.onex.foryou.activity.addtask.AddTaskActivity;
 import com.it.onex.foryou.base.BaseFragment;
-import com.it.onex.foryou.bean.AddToDoDetail;
 import com.it.onex.foryou.bean.TodoSection;
 import com.it.onex.foryou.bean.TodoTaskDetail;
 import com.it.onex.foryou.constant.Constant;
@@ -28,6 +27,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by OnexZgj on 2018/8/18:11:10.
@@ -111,7 +112,7 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-        clickPosition=position;
+        clickPosition = position;
         Intent intent = new Intent(getActivity(), AddTaskActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constant.TASK_KEY, mUndoneAdapter.getItem(position));
@@ -166,10 +167,10 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     @Override
     public void showDeleteSuccess(String message) {
         if (deletePosition != -1) {
-            if (mUndoneAdapter.getData().get(deletePosition-1).isHeader && (mUndoneAdapter.getData().size()== deletePosition+1 || mUndoneAdapter.getData().get(deletePosition+1).isHeader)) {
-                mUndoneAdapter.getData().remove(deletePosition-1);
-                mUndoneAdapter.getData().remove(deletePosition-1);
-                mUndoneAdapter.notifyItemRangeRemoved(deletePosition-1,2);
+            if (mUndoneAdapter.getData().get(deletePosition - 1).isHeader && (mUndoneAdapter.getData().size() == deletePosition + 1 || mUndoneAdapter.getData().get(deletePosition + 1).isHeader)) {
+                mUndoneAdapter.getData().remove(deletePosition - 1);
+                mUndoneAdapter.getData().remove(deletePosition - 1);
+                mUndoneAdapter.notifyItemRangeRemoved(deletePosition - 1, 2);
             } else {
                 mUndoneAdapter.getData().remove(deletePosition);
                 mUndoneAdapter.notifyItemRemoved(deletePosition);
@@ -182,10 +183,10 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     @Override
     public void showMarkComplete(String message) {
         if (updatePosition != -1) {
-            if (mUndoneAdapter.getData().get(updatePosition-1).isHeader && (mUndoneAdapter.getData().size()== updatePosition+1 || mUndoneAdapter.getData().get(updatePosition+1).isHeader)) {
-                mUndoneAdapter.getData().remove(updatePosition-1);
-                mUndoneAdapter.getData().remove(updatePosition-1);
-                mUndoneAdapter.notifyItemRangeRemoved(updatePosition-1,2);
+            if (mUndoneAdapter.getData().get(updatePosition - 1).isHeader && (mUndoneAdapter.getData().size() == updatePosition + 1 || mUndoneAdapter.getData().get(updatePosition + 1).isHeader)) {
+                mUndoneAdapter.getData().remove(updatePosition - 1);
+                mUndoneAdapter.getData().remove(updatePosition - 1);
+                mUndoneAdapter.notifyItemRangeRemoved(updatePosition - 1, 2);
             } else {
                 mUndoneAdapter.getData().remove(updatePosition);
                 mUndoneAdapter.notifyItemRemoved(updatePosition);
@@ -204,7 +205,7 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.delete_todo);
         builder.setMessage(R.string.sure_delete_todo);
-        builder.setNegativeButton(R.string.cancel,null);
+        builder.setNegativeButton(R.string.cancel, null);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -216,69 +217,51 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     }
 
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_BACK:
-                AddToDoDetail addData = (AddToDoDetail) data.getSerializableExtra(Constant.ADD_DATA);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_BACK:
+
+                    if (data != null) {
+
+                        TodoTaskDetail.DatasBean addData = (TodoTaskDetail.DatasBean) data.getSerializableExtra(Constant.ADD_DATA);
+                        List<TodoSection> todoSections = mUndoneAdapter.getData();
+                        for (int i = 0; i < todoSections.size(); i++) {
+                            TodoSection todoSection = todoSections.get(i);
+                            if (todoSection.isHeader && TextUtils.equals(todoSection.header, addData.getDateStr())) {
 
 
-                TodoTaskDetail.DatasBean tempData=new TodoTaskDetail.DatasBean();
-                tempData.setDateStr(addData.getDateStr());
-                tempData.setId(addData.getId());
-                tempData.setTitle(addData.getTitle());
-                tempData.setContent(addData.getContent());
-                tempData.setStatus(addData.getStatus());
-                tempData.setType(addData.getType());
-
-                List<TodoSection> todoSections = mUndoneAdapter.getData();
-                for (int i = 0; i < todoSections.size(); i++) {
-                    TodoSection todoSection = todoSections.get(i);
-                    if (todoSection.isHeader && TextUtils.equals(todoSection.header, addData.getDateStr())) {
-
-
-                        TodoSection section = new TodoSection(tempData);
-                        mUndoneAdapter.getData().add(i+1,section);
-                        mUndoneAdapter.notifyItemInserted(i+1);
-                        rvFuList.scrollToPosition(i+1);
-                        return;
+                                TodoSection section = new TodoSection(addData);
+                                mUndoneAdapter.getData().add(i + 1, section);
+                                mUndoneAdapter.notifyItemInserted(i + 1);
+                                rvFuList.scrollToPosition(i + 1);
+                                return;
+                            }
+                        }
+                        TodoSection sectionHead = new TodoSection(true, addData.getDateStr());
+                        mUndoneAdapter.getData().add(0, sectionHead);
+                        TodoSection section = new TodoSection(addData);
+                        mUndoneAdapter.getData().add(1, section);
+                        mUndoneAdapter.notifyItemRangeInserted(0, 2);
+                        rvFuList.scrollToPosition(0);
                     }
-                }
-                TodoSection sectionHead = new TodoSection(true,addData.getDateStr());
-                mUndoneAdapter.getData().add(0, sectionHead);
 
-                TodoSection section = new TodoSection(tempData);
-                mUndoneAdapter.getData().add(1, section);
-                mUndoneAdapter.notifyItemRangeInserted(0,2);
-                rvFuList.scrollToPosition(0);
+                    break;
+                case REQUEST_EDIT_CODE:
+                    if (data != null) {
+                        TodoTaskDetail.DatasBean updateData = (TodoTaskDetail.DatasBean) data.getSerializableExtra(Constant.UPDATE_DATA);
 
-
-                break;
-            case REQUEST_EDIT_CODE:
-                AddToDoDetail updateData = (AddToDoDetail) data.getSerializableExtra(Constant.UPDATE_DATA);
-
-                TodoTaskDetail.DatasBean tempUpdate=new TodoTaskDetail.DatasBean();
-                tempUpdate.setDateStr(updateData.getDateStr());
-                tempUpdate.setId(updateData.getId());
-                tempUpdate.setTitle(updateData.getTitle());
-                tempUpdate.setContent(updateData.getContent());
-                tempUpdate.setStatus(updateData.getStatus());
-                tempUpdate.setType(updateData.getType());
-
-
-                mUndoneAdapter.getData().remove(clickPosition);
-                TodoSection udpateData = new TodoSection(tempUpdate);
-                mUndoneAdapter.getData().add(clickPosition,udpateData);
-                mUndoneAdapter.notifyItemChanged(clickPosition);
-                rvFuList.scrollToPosition(clickPosition);
-
-
-
-
+                        mUndoneAdapter.getData().remove(clickPosition);
+                        TodoSection udpateData = new TodoSection(updateData);
+                        mUndoneAdapter.getData().add(clickPosition, udpateData);
+                        mUndoneAdapter.notifyItemChanged(clickPosition);
+                        rvFuList.scrollToPosition(clickPosition);
+                    }
 //                onRefresh();
-                break;
+                    break;
+            }
         }
 
     }
