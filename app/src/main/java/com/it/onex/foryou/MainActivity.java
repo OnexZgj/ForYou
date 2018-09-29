@@ -26,6 +26,7 @@ import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.it.onex.foryou.activity.aboutme.AboutActivity;
 import com.it.onex.foryou.activity.login.LoginActivity;
 import com.it.onex.foryou.base.BaseActivity;
 import com.it.onex.foryou.base.BaseFragment;
@@ -37,7 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-@Route(path="/activity/MainActivity")
+@Route(path = "/activity/MainActivity")
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.navigation)
@@ -81,35 +82,33 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.menuHot) {
+        switch (item.getItemId()) {
+            case R.id.menuHot:
+                //清除Cookie
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("温馨提示");
+                builder.setMessage("确定要退出登录吗?");
+                builder.setNegativeButton(R.string.cancel, null);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                        ClearableCookieJar cookieJar =
+                                new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MainActivity.this));
+                        cookieJar.clear();
+                        SPUtils.getInstance().put("study", false);
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                });
+                builder.show();
+                break;
+            case R.id.menuMe:
 
-
-            //清除Cookie
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("确定退出吗?");
-            builder.setMessage("小亲亲,你要重新登录哦");
-            builder.setNegativeButton(R.string.cancel,null);
-            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-
-                    ClearableCookieJar cookieJar =
-                            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MainActivity.this));
-                    cookieJar.clear();
-                    SPUtils.getInstance().put("study", false);
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    finish();
-
-                }
-            });
-            builder.show();
-
-
-
-
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                break;
         }
+
         return super.onOptionsItemSelected(item);
 
     }
@@ -145,8 +144,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             ft.add(R.id.layout_fragment, targetFg);
 
         ft.show(targetFg);
-
-        //TODO HOW AND WHY?
         ft.commitAllowingStateLoss();
     }
 
@@ -187,13 +184,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
              * 定位权限为必须权限，用户如果禁止，则每次进入都会申请
              */
             // 定位精确位置
-            if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
             }
-            if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
             }
-			/*
+            /*
 			 * 读写权限和电话状态权限非必要权限(建议授予)只会申请一次，用户同意或者禁止，只会弹一次
 			 */
             // 读写权限
@@ -212,18 +209,18 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
 
-//    @RequiresApi(api = Build.VERSION_CODES.M)
+    //    @RequiresApi(api = Build.VERSION_CODES.M)
     @TargetApi(23)
     private boolean addPermission(ArrayList<String> permissionsList, String permission) {
         if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) { // 如果应用没有获得对应权限,则添加到列表中,准备批量申请
-            if (shouldShowRequestPermissionRationale(permission)){
+            if (shouldShowRequestPermissionRationale(permission)) {
                 return true;
-            }else{
+            } else {
                 permissionsList.add(permission);
                 return false;
             }
 
-        }else{
+        } else {
             return true;
         }
     }

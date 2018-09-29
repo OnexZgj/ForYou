@@ -7,8 +7,8 @@
 
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_centerInParent="true"
         android:src="@mipmap/onex" />
 
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_60"
-        android:text="开心快乐每一天"
+        android:text="Wandroid TODO"
         android:textColor="@color/white"
         android:textSize="20sp" />
 
@@ -31,7 +31,7 @@
         app:duration="4000"
         app:showPainter="true"
         android:layout_alignParentBottom="true"
-        app:text="For Y ♥ Q "
+        app:text="For Y O U "
         app:paintStrokeColor="@color/green"
         app:textInCenter="true"
         app:textSize="40sp"

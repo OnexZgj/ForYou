@@ -36,4 +36,8 @@
     <dimen name="dp_60">60dp</dimen>
     <dimen name="list_image_size">80dp</dimen>
 
+    <dimen name="about_header_height">230dp</dimen>
+
+    <dimen name="about_card_margin">8dp</dimen>
+
 </resources>

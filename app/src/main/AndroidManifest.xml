@@ -42,6 +42,8 @@
         </activity>
         <activity android:name=".activity.login.LoginActivity"/>
         <activity android:name=".activity.register.RegisterActivity"/>
+        <activity android:name=".activity.aboutme.AboutActivity"
+            android:theme="@style/ThemeSwipeBack"/>
     </application>
 
 </manifest>

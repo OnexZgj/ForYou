@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">For Y-Q</string>
+    <string name="app_name">For YOU</string>
     <string name="no_network_connection">请检查网络</string>
     <string name="title_home">未完成</string>
     <string name="title_knowledgesystem">已完成</string>
@@ -108,6 +108,16 @@
     <string name="ok">确定</string>
     <string name="todo_title">标题：</string>
     <string name="des">详情：</string>
+    <string name="introduce_and_help">应用简介</string>
 
+    <string name="open_source_lis">用到的开源库</string>
+    <string name="open_source_libraries_list">com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30 \ncom.trello.rxlifecycle2:rxlifecycle:2.2.1 \nio.reactivex.rxjava2:rxjava:2.1.11 \ncom.alibaba:arouter-api:1.3.1\ncom.squareup.retrofit2:retrofit:2.3.0\ncom.google.dagger:dagger:2.11 \ncom.orhanobut:logger:2.2.0 \ncom.yanzhikai:TextPathView:0.1.3\n...</string>
+    <string name="about_coder">作者简介</string>
+    <string name="share">分享给朋友</string>
+    <string name="menu_save">保存</string>
+
+    <string name="introduce">待办事项APP,使用主流MVP+Dagger2+Retrofit+Rxjava2+RxLifecycle+ARouter框架构建的主体项目,接口是鸿洋大大提供\n\n地址: http://www.wanandroid.com/blog/show/2 \n\n项目的GitHub地址:https://github.com/OnexZgj/ForYou \n\n完全开源，如果你觉得不错，可以帮忙分享给你更多的朋友，这是我最大的动力和支持，非常感谢！\n\n如果在使用过程中有任何的问题可以在: \nhttps://github.com/OnexZgj/ForYou 项目中以issue的形式提出，我将及时跟进。</string>
+
+    <string name="introduce_about_coder">一个热衷于技术开发、喜欢旅游的程序猿...</string>
 
 </resources>

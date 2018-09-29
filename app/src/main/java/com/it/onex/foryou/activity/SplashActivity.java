@@ -34,22 +34,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-//        RePlugin.preload("app");
-//        SPUtils spUtils = SPUtils.getInstance();
-//        boolean study = spUtils.getBoolean("study");
-//        if (study) {
-//            try {
-//                Intent intent = RePlugin.createIntent("com.stx.xhb.enjoylife", "com.stx.xhb.enjoylife.ui.activity.SplashActivity");
-//                RePlugin.startActivity(SplashActivity.this,intent);
-//                spUtils.put("study", false);
-//                finish();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                ToastUtils.showShort("插件出错！找360大大吧！");
-//            }
-//        }else {
-//            spUtils.put("study", true);
-//        }
 
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
@@ -58,30 +42,13 @@ public class SplashActivity extends AppCompatActivity {
 
         atpvAs.startAnimation(0,1);
 
-//        atpvAs.setTextPainter(new SyncTextPathView.SyncTextPainter() {
-//            @Override
-//            public void onStartAnimation() {
-//
-//            }
-//
-//            @Override
-//            public void onDrawPaintPath(float x, float y, Path paintPath) {
-//
-//            }
-//        });
-
-
         spUtils = SPUtils.getInstance();
         study = spUtils.getBoolean("study");
-
-
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
                     if (study) {
-
                         startActivity(new Intent(SplashActivity.this, MainActivity.class));
                         finish();
                     }else{

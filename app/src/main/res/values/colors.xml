@@ -5,6 +5,8 @@
     <!--<color name="colorAccent">#00BCD4</color>-->
     <color name="colorAccent">#19443D</color>
 
+    <color name="abc_theme_black_7f">#7f000000</color>
+
     <color name="color_light_blue">#00DDB6</color>
     <color name="txt_color">#48495F</color>
     <color name="item_bg">#FFFFFF</color>
@@ -21,6 +23,9 @@
     <color name="lightgray">#11000000</color>
     <color name="green">#00ffff</color>
     <color name="select_color_tab">#ff4081</color>
+
+    <color name="md_grey_600">#757575</color>
+    <color name="md_grey_800">#424242</color>
 
     <!--正文文字颜色-->
     <color name="colorContent">#ff333333</color>
