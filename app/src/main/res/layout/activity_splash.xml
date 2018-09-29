@@ -20,7 +20,7 @@
         android:layout_marginTop="@dimen/dp_60"
         android:text="Wandroid TODO"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="24sp" />
 
 
     <yanzhikai.textpath.SyncTextPathView
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        app:duration="4000"
+        app:duration="3000"
         app:showPainter="true"
         android:layout_alignParentBottom="true"
         app:text="For Y O U "
