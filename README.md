@@ -24,6 +24,7 @@ API地址: http://www.wanandroid.com/blog/show/2
 
 ### 3、项目运行截图
 ![demo.gif](https://upload-images.jianshu.io/upload_images/5249989-e43b0f1a6917186b.gif?imageMogr2/auto-orient/strip)
+
 ![splash.png](https://upload-images.jianshu.io/upload_images/5249989-838b1dfae5ef51fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![login.png](https://upload-images.jianshu.io/upload_images/5249989-dba29b7a13b80222.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![image.png](https://upload-images.jianshu.io/upload_images/5249989-6420858b88e870e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
