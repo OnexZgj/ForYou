@@ -11,7 +11,10 @@ API地址: http://www.wanandroid.com/blog/show/2
 项目中以issue的形式提出，我将及时跟进。
 
 项目完全开源，如果你觉得不错，可以帮忙分享给你更多的朋友，这是我最大的动力和支持，非常感谢！
-### 2、用到的第三方库:
+### 2、Apk下载
+[For You.apk](https://fir.im/2b3s?release_id=5bb026ca959d693c33e395f0)
+
+### 3、用到的第三方库:
  - [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
 - [RxLifecycle](https://github.com/trello/RxLifecycle)
 - [RxJava](https://github.com/ReactiveX/RxJava)
@@ -22,7 +25,7 @@ API地址: http://www.wanandroid.com/blog/show/2
 - [Dagger2](https://github.com/google/dagger)
 - [TextPathView](https://github.com/totond/TextPathView)
 
-### 3、项目运行截图
+### 4、项目运行截图
 ![demo.gif](https://upload-images.jianshu.io/upload_images/5249989-e43b0f1a6917186b.gif?imageMogr2/auto-orient/strip)
 
 ![splash.png](https://upload-images.jianshu.io/upload_images/5249989-838b1dfae5ef51fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -31,8 +34,6 @@ API地址: http://www.wanandroid.com/blog/show/2
 ![undo.png](https://upload-images.jianshu.io/upload_images/5249989-503bab3a31409a74.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![add.png](https://upload-images.jianshu.io/upload_images/5249989-4ccb0533b22d689c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![me.png](https://upload-images.jianshu.io/upload_images/5249989-2361888b72d89bdf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-### 4、Apk下载
-[For You.apk](https://fir.im/2b3s?release_id=5bb026ca959d693c33e395f0)
 
 ### 5、项目地址:
 Github地址: https://github.com/OnexZgj/ForYou
