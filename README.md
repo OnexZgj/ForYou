@@ -39,6 +39,6 @@ API地址: http://www.wanandroid.com/blog/show/2
 Github地址: https://github.com/OnexZgj/ForYou
 
 ### 6、关于我:
-[CSDN](https://blog.csdn.net/qq_15988951)
-[简书](https://www.jianshu.com/u/a72b21d4d650)
+- [CSDN](https://blog.csdn.net/qq_15988951)
+- [简书](https://www.jianshu.com/u/a72b21d4d650)
 
