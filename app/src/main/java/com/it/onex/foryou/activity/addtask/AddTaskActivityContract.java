@@ -37,7 +37,4 @@ public interface AddTaskActivityContract {
          */
         void updateTask(int id,String title,String content,String date, int state,int type);
     }
-
-
-
 }
