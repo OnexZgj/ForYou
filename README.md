@@ -12,7 +12,7 @@ API地址: http://www.wanandroid.com/blog/show/2
 
 项目完全开源，如果你觉得不错，可以帮忙分享给你更多的朋友，这是我最大的动力和支持，非常感谢！
 ### 2、Apk下载
-[For You.apk](https://fir.im/2b3s?release_id=5bb026ca959d693c33e395f0)
+[For You.apk](https://fir.im/2b3s)
 
 ### 3、用到的第三方库:
  - [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
