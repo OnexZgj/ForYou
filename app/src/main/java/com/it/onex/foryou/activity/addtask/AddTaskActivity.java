@@ -41,7 +41,7 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     int mMonth = 8;
     int mDay = 18;
     private String mCustomType = "0";
-    private int mEditType=0;
+    private int mEditType = 0;
     private TodoSection todoSection;
 
 
@@ -64,13 +64,12 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
             todoSection = (TodoSection) bundle.getSerializable(Constant.TASK_KEY);
             if (null != todoSection) {
                 mToolbar.setTitle("待办详情");
-                if (null != todoSection.t) {
-                    etAdtTitle.setText(todoSection.t.getTitle());
-                    etAdtContent.setText(todoSection.t.getContent());
-                    tvAdtDate.setText(todoSection.t.getDateStr());
-                }
-                btnAdtSave.setText("更新");
+                etAdtTitle.setText(todoSection.t.getTitle());
+                etAdtContent.setText(todoSection.t.getContent());
+                tvAdtDate.setText(todoSection.t.getDateStr());
             }
+            btnAdtSave.setText("更新");
+
         } else {
             mToolbar.setTitle("新增待办");
             String format = TimeUtil.format(new Date(), TimeUtil.DEFAULT_PATTERN);
@@ -99,11 +98,10 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
                 showLoading();
                 switch (btnAdtSave.getText().toString()) {
                     case "添加":
-
                         mPresenter.addTask(etAdtTitle.getText().toString(), etAdtContent.getText().toString(), tvAdtDate.getText().toString(), mCustomType);
                         break;
                     case "更新":
-                        mPresenter.updateTask(todoSection.t.getId(),etAdtTitle.getText().toString(), etAdtContent.getText().toString(), tvAdtDate.getText().toString(), todoSection.t.getStatus(),mEditType);
+                        mPresenter.updateTask(todoSection.t.getId(), etAdtTitle.getText().toString(), etAdtContent.getText().toString(), tvAdtDate.getText().toString(), todoSection.t.getStatus(), mEditType);
                         break;
                 }
 
@@ -115,9 +113,9 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     public void showAddTaskSuccess(TodoTaskDetail.DatasBean data) {
 
         showSuccess("添加成功!");
-        Intent intent=new Intent();
-        intent.putExtra(Constant.ADD_DATA,data);
-        setResult(RESULT_OK,intent);
+        Intent intent = new Intent();
+        intent.putExtra(Constant.ADD_DATA, data);
+        setResult(RESULT_OK, intent);
 
         finish();
     }
@@ -125,13 +123,11 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     @Override
     public void showUpdateSuccess(TodoTaskDetail.DatasBean data) {
         showSuccess("更新成功!");
-        Intent intent=new Intent();
-        intent.putExtra(Constant.UPDATE_DATA,data);
-        setResult(RESULT_OK,intent);
+        Intent intent = new Intent();
+        intent.putExtra(Constant.UPDATE_DATA, data);
+        setResult(RESULT_OK, intent);
         finish();
     }
-
-
 
 
     /**

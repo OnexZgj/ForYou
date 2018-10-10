@@ -91,12 +91,14 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-        clickPosition = position;
-        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constant.TASK_KEY, mDoneAdapter.getItem(position));
-        intent.putExtras(bundle);
-        startActivityForResult(intent, REQUEST_EDIT_CODE);
+        if (!mDoneAdapter.getData().get(position).isHeader) {
+            clickPosition = position;
+            Intent intent = new Intent(getActivity(), AddTaskActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constant.TASK_KEY, mDoneAdapter.getItem(position));
+            intent.putExtras(bundle);
+            startActivityForResult(intent, REQUEST_EDIT_CODE);
+        }
 
     }
 

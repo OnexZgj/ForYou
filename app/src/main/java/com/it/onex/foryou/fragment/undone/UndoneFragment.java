@@ -112,13 +112,14 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-        clickPosition = position;
-        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constant.TASK_KEY, mUndoneAdapter.getItem(position));
-        intent.putExtras(bundle);
-        startActivityForResult(intent, REQUEST_EDIT_CODE);
-
+        if (!mUndoneAdapter.getData().get(position).isHeader) {
+            clickPosition = position;
+            Intent intent = new Intent(getActivity(), AddTaskActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constant.TASK_KEY, mUndoneAdapter.getItem(position));
+            intent.putExtras(bundle);
+            startActivityForResult(intent, REQUEST_EDIT_CODE);
+        }
     }
 
     @Override
