@@ -64,10 +64,11 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
             todoSection = (TodoSection) bundle.getSerializable(Constant.TASK_KEY);
             if (null != todoSection) {
                 mToolbar.setTitle("待办详情");
-                if (null != todoSection.t)
-                etAdtTitle.setText(todoSection.t.getTitle());
-                etAdtContent.setText(todoSection.t.getContent());
-                tvAdtDate.setText(todoSection.t.getDateStr());
+                if (null != todoSection.t) {
+                    etAdtTitle.setText(todoSection.t.getTitle());
+                    etAdtContent.setText(todoSection.t.getContent());
+                    tvAdtDate.setText(todoSection.t.getDateStr());
+                }
                 btnAdtSave.setText("更新");
             }
         } else {
