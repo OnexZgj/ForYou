@@ -58,13 +58,13 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     @Override
     protected void initView() {
 
-
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
             todoSection = (TodoSection) bundle.getSerializable(Constant.TASK_KEY);
             if (null != todoSection) {
                 mToolbar.setTitle("待办详情");
+                if (null != todoSection.t)
                 etAdtTitle.setText(todoSection.t.getTitle());
                 etAdtContent.setText(todoSection.t.getContent());
                 tvAdtDate.setText(todoSection.t.getDateStr());

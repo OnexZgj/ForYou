@@ -184,9 +184,15 @@ public class UndoneFragment extends BaseFragment<UndonePresenterImp> implements 
     public void showMarkComplete(String message) {
         if (updatePosition != -1) {
             if (mUndoneAdapter.getData().get(updatePosition - 1).isHeader && (mUndoneAdapter.getData().size() == updatePosition + 1 || mUndoneAdapter.getData().get(updatePosition + 1).isHeader)) {
+                int size = mUndoneAdapter.getData().size();
                 mUndoneAdapter.getData().remove(updatePosition - 1);
                 mUndoneAdapter.getData().remove(updatePosition - 1);
-                mUndoneAdapter.notifyItemRangeRemoved(updatePosition - 1, 2);
+                if (size == 2){
+                    //假如是最后的2条，直接进行notify所有，否则会出现异常
+                    mUndoneAdapter.notifyDataSetChanged();
+                }else{
+                    mUndoneAdapter.notifyItemRangeRemoved(updatePosition - 1, 2);
+                }
             } else {
                 mUndoneAdapter.getData().remove(updatePosition);
                 mUndoneAdapter.notifyItemRemoved(updatePosition);
