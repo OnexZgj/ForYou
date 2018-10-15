@@ -36,7 +36,7 @@ API地址: http://www.wanandroid.com/blog/show/2
 ![me.png](https://upload-images.jianshu.io/upload_images/5249989-2361888b72d89bdf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### 5、项目地址:
-Github地址: https://github.com/OnexZgj/ForYou
+Github地址: https://github.com/OnexZgj/ForYou 如果觉得还不错,期待你的star！ヾ(◍°∇°◍)ﾉﾞ
 
 ### 6、关于我:
 - [CSDN](https://blog.csdn.net/qq_15988951)
