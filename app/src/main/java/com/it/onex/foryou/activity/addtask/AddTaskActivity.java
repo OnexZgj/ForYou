@@ -36,7 +36,6 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     @BindView(R.id.btn_adt_save)
     Button btnAdtSave;
 
-
     int mYear = 2018;
     int mMonth = 8;
     int mDay = 18;
@@ -104,7 +103,6 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
                         mPresenter.updateTask(todoSection.t.getId(), etAdtTitle.getText().toString(), etAdtContent.getText().toString(), tvAdtDate.getText().toString(), todoSection.t.getStatus(), mEditType);
                         break;
                 }
-
                 break;
         }
     }

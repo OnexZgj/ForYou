@@ -15,7 +15,6 @@ import com.it.onex.foryou.di.component.DaggerApplicationComponent;
 import com.it.onex.foryou.di.module.ApplicationModule;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
-import com.tencent.bugly.crashreport.CrashReport;
 
 
 /**
@@ -32,7 +31,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        CrashReport.initCrashReport(getApplicationContext(), "e81cc8ae10", false);
+//        CrashReport.initCrashReport(getApplicationContext(), "e81cc8ae10", false);
         initApplicationComponent();
         mVibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         Utils.init(this);
