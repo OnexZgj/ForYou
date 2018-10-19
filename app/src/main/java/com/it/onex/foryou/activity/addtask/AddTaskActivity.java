@@ -128,9 +128,6 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
     }
 
 
-    /**
-     * 展示选择的分类
-     */
 //    private void showBottomSheet() {
 //        new BottomSheet.Builder(this, R.style.BottomSheet_StyleDialog)
 //                .title("选择分类:")
