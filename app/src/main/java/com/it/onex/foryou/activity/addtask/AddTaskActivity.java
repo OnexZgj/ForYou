@@ -16,6 +16,7 @@ import com.it.onex.foryou.bean.TodoTaskDetail;
 import com.it.onex.foryou.constant.Constant;
 import com.it.onex.foryou.utils.TimeUtil;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -59,6 +60,15 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
 
         Bundle bundle = getIntent().getExtras();
 
+        mYear=Calendar.getInstance().get(Calendar.YEAR);
+        mMonth=  Calendar.getInstance().get(Calendar.MONTH)-1;
+        mDay =  Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+//
+//        mYear=new Date().getYear();
+//        mMonth=new Date().getMonth()-1;
+//        mDay=new Date().getDay();
+
+
         if (bundle != null) {
             todoSection = (TodoSection) bundle.getSerializable(Constant.TASK_KEY);
             if (null != todoSection) {
@@ -66,6 +76,10 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
                 etAdtTitle.setText(todoSection.t.getTitle());
                 etAdtContent.setText(todoSection.t.getContent());
                 tvAdtDate.setText(todoSection.t.getDateStr());
+                String format = TimeUtil.format(new Date(todoSection.t.getDate()));
+                mYear= Integer.parseInt(format.split("-")[0]);
+                mMonth= Integer.parseInt(format.split("-")[1]);
+                mDay= Integer.parseInt(format.split("-")[2]);
             }
             btnAdtSave.setText("更新");
 
@@ -88,10 +102,13 @@ public class AddTaskActivity extends BaseActivity<AddTaskActivityImp> implements
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
+
+
+
                         tvAdtDate.setText(year + "-" + month + "-" + dayOfMonth);
 
                     }
-                }, mYear, mMonth, mDay).show();
+                }, mYear, mMonth-1, mDay).show();
                 break;
             case R.id.btn_adt_save:
                 showLoading();
