@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
 import com.it.onex.foryou.R;
 import com.it.onex.foryou.activity.addtask.AddTaskActivity;
 import com.it.onex.foryou.base.BaseFragment;
@@ -52,6 +54,7 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
      * 当前点击的position
      */
     private int clickPosition = -1;
+    private RecyclerViewSkeletonScreen skeletonScreen;
 
     public static DoneFragment getInstance(int type) {
         mType = type;
@@ -85,6 +88,13 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
 
         /**请求数据*/
         mPresenter.getTodoList(0);
+
+
+        skeletonScreen = Skeleton.bind(rvFuList)
+                .adapter(mDoneAdapter)
+                .load(R.layout.item_done)
+                .show();
+
     }
 
 
@@ -99,7 +109,6 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
             intent.putExtras(bundle);
             startActivityForResult(intent, REQUEST_EDIT_CODE);
         }
-
     }
 
     @Override
@@ -127,8 +136,11 @@ public class DoneFragment extends BaseFragment<DonePresenterImp> implements Done
     @Override
     public void showDoneTask(final TodoTaskDetail datas, int loadType) {
 
+        skeletonScreen.hide();
         List<TodoSection> todoSections = new ArrayList<>();
         LinkedHashSet<String> dates = new LinkedHashSet<>();
+
+
         for (TodoTaskDetail.DatasBean todoDesBean : datas.getDatas()) {
             dates.add(todoDesBean.getDateStr());
         }

@@ -108,7 +108,6 @@ public class RetrofitManager {
 
             Logger.w(String.format("Received response json string "+bodyString));
 
-//            Logger.json(bodyString);
             return response;
         }
     };
@@ -130,7 +129,7 @@ public class RetrofitManager {
                             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                             .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
-//                            .addInterceptor(mRewriteCacheControlInterceptor)
+                            .addInterceptor(mRewriteCacheControlInterceptor)
                             .addInterceptor(mLoggingInterceptor)
 //                            .addInterceptor(interceptor)
 //                            .cookieJar(new CookiesManager())

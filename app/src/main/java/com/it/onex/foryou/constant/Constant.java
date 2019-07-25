@@ -5,7 +5,7 @@ package com.it.onex.foryou.constant;
  */
 
 public class Constant {
-    public static final String REQUEST_BASE_URL = "http://wanandroid.com/";
+    public static final String REQUEST_BASE_URL = "https://wanandroid.com/";
     public static final String GANK_BASE_URL = "http://gank.io/";
 
     /**

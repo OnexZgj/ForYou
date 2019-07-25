@@ -1,5 +1,7 @@
 package com.it.onex.foryou.fragment.done;
 
+import android.annotation.SuppressLint;
+
 import com.it.onex.foryou.base.BasePresenter;
 import com.it.onex.foryou.bean.DataResponse;
 import com.it.onex.foryou.bean.TodoTaskDetail;
@@ -29,6 +31,7 @@ public class DonePresenterImp extends BasePresenter<DoneContract.View> implement
     public DonePresenterImp() {
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void getTodoList(int type) {
         this.mType = type;
